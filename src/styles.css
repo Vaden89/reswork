@@ -33,3 +33,7 @@ body {
   margin: 0;
   background-color: var(--color-neutral);
 }
+
+button {
+  cursor: pointer;
+}
