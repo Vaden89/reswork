@@ -10,6 +10,7 @@
   --tertiary-color: #121110;
   --neutral-color: #f9f9f9;
   --border-color: #e5e5e5;
+  --dark-gray-color: #e2e2e2;
 }
 
 @theme {
@@ -18,6 +19,7 @@
   --color-tertiary: var(--tertiary-color);
   --color-neutral: var(--neutral-color);
   --color-border: var(--border-color);
+  --color-dark-gray: var(--dark-gray-color);
   --font-sans: 'Inter', sans-serif;
 }
 
@@ -30,4 +32,36 @@ body,
 body {
   margin: 0;
   background-color: var(--color-neutral);
+}
+
+button {
+  cursor: pointer;
+}
+
+.noscroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.noscroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width ease 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
