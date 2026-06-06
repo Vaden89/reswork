@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuilderIndexRouteImport } from './routes/builder/index'
+import { Route as BuilderPreviewRouteImport } from './routes/builder/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const BuilderIndexRoute = BuilderIndexRouteImport.update({
   path: '/builder/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuilderPreviewRoute = BuilderPreviewRouteImport.update({
+  id: '/builder/preview',
+  path: '/builder/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/builder/preview': typeof BuilderPreviewRoute
   '/builder/': typeof BuilderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/builder/preview': typeof BuilderPreviewRoute
   '/builder': typeof BuilderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/builder/preview': typeof BuilderPreviewRoute
   '/builder/': typeof BuilderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/builder/'
+  fullPaths: '/' | '/builder/preview' | '/builder/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/builder'
-  id: '__root__' | '/' | '/builder/'
+  to: '/' | '/builder/preview' | '/builder'
+  id: '__root__' | '/' | '/builder/preview' | '/builder/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuilderPreviewRoute: typeof BuilderPreviewRoute
   BuilderIndexRoute: typeof BuilderIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuilderIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/builder/preview': {
+      id: '/builder/preview'
+      path: '/builder/preview'
+      fullPath: '/builder/preview'
+      preLoaderRoute: typeof BuilderPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuilderPreviewRoute: BuilderPreviewRoute,
   BuilderIndexRoute: BuilderIndexRoute,
 }
 export const routeTree = rootRouteImport
