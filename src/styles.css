@@ -37,3 +37,12 @@ body {
 button {
   cursor: pointer;
 }
+
+.noscroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.noscroll::-webkit-scrollbar {
+  display: none;
+}
