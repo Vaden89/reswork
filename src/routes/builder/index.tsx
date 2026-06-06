@@ -44,7 +44,7 @@ function RouteComponent() {
         </div>
         <div
           ref={templateContainer}
-          className="w-full overflow-x-scroll min-h-0 flex-1 flex items-center mt-6 py-6 px-4 noscroll snap-x snap-proximity"
+          className="w-full min-h-[450px] overflow-x-scroll flex-1 flex items-center mt-6 py-6 px-4 noscroll snap-x snap-proximity"
         >
           {TEMPLATES.map((template) => (
             <TemplateCard

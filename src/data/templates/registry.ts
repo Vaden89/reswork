@@ -14,7 +14,7 @@ export const TEMPLATES: Template[] = [
   {
     id: 'template-1',
     label: 'Classic',
-    image: '/images/template/1.jpg',
+    image: '/images/template/1.webp',
     subText: 'Traditional, high-density structure',
     component: Template1,
   },

@@ -30,6 +30,7 @@ function Home() {
           src="/images/landing.svg"
           alt="Resume builder illustration"
           className="w-1/2 aspect-auto"
+          fetchPriority="high"
         />
       </section>
       <section className="max-w-6xl px-8 xl:px-0 w-full flex mt-12 py-12 gap-10 border-t border-t-border flex-col">
