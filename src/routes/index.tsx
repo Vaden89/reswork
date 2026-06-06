@@ -26,7 +26,11 @@ function Home() {
             <ArrowRight size={16} />
           </Button>
         </div>
-        <div className="w-1/2 h-[70vh] bg-red-300"></div>
+        <img
+          src="/images/landing.svg"
+          alt="Resume builder illustration"
+          className="w-1/2 aspect-auto"
+        />
       </section>
       <section className="max-w-6xl px-8 xl:px-0 w-full flex mt-12 py-12 gap-10 border-t border-t-border flex-col">
         <span className="text-xl">CORE PRINCIPLES</span>
