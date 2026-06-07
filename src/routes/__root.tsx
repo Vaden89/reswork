@@ -14,21 +14,10 @@ function RootComponent() {
   return (
     <AuthProvider>
       <main className="w-full min-h-dvh flex flex-col">
-        <div className="w-full flex-1">
+        <div className="w-full flex-1 flex flex-col min-h-0">
           <Outlet />
         </div>
         <Footer />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'TanStack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
       </main>
     </AuthProvider>
   )
