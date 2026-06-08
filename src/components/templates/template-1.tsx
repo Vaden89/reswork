@@ -18,12 +18,12 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
             {data.first_name} {data.last_name}
           </Text>
           <View style={styles.generalInfo}>
-            <Text>
-              {data.state}, {data.country} ·{' '}
-            </Text>
+            <Text>{data.location} · </Text>
             <Text> {data.email} ·</Text>
             <Text> {data.phone} ·</Text>
-            <Text> {data.website}</Text>
+            {data.links.map((link) => (
+              <Link href={link.url}>{link.label}</Link>
+            ))}
           </View>
         </View>
         <View style={styles.section}>
