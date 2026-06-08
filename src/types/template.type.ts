@@ -1,17 +1,20 @@
 export interface TemplateData {
   first_name: string
   last_name: string
-  state: string
-  country: string
   location: string
   email: string
   phone: string
-  website: string
+  links: Link[]
   profession: string
   skills: Skills[]
-  workExperience: workExperience[]
+  workExperience: WorkExperience[]
   projects: Project[]
   education: Education[]
+}
+
+export interface Link {
+  label: string
+  url: string
 }
 
 interface Skills {
@@ -19,7 +22,7 @@ interface Skills {
   sub_skills: string[]
 }
 
-interface workExperience {
+export interface WorkExperience {
   company: string
   position: string
   start_date: string
@@ -35,7 +38,7 @@ interface Project {
   technologies: string[]
 }
 
-interface Education {
+export interface Education {
   school: string
   course: string
   end_date: string
