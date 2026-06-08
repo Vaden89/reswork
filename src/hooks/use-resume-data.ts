@@ -9,12 +9,10 @@ export type SetField = <T extends keyof TemplateData>(
 const defaultData: TemplateData = {
   first_name: '',
   last_name: '',
-  state: '',
-  country: '',
   location: '',
   email: '',
   phone: '',
-  website: '',
+  links: [],
   profession: '',
   skills: [],
   workExperience: [],
