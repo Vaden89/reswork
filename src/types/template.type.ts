@@ -31,7 +31,7 @@ export interface WorkExperience {
   responsibilities: string[]
 }
 
-interface Project {
+export interface Project {
   name: string
   live_url: string
   description: string
