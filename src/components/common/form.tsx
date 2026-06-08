@@ -42,14 +42,18 @@ interface FormSelectProps {
   name: string
   label: string
   options: { value: string; label: string }[]
+  value?: string
   classname?: string
+  onChange?: ChangeEventHandler<HTMLSelectElement>
 }
 
 export function FormSelect({
   label,
   name,
   options,
+  value,
   classname,
+  onChange,
 }: FormSelectProps) {
   const styling =
     'h-10 border border-border active:border-tertiary focus:border-tertiary bg-white px-4 outline-none'
@@ -57,7 +61,7 @@ export function FormSelect({
   return (
     <div className={cn('flex flex-col gap-1', classname)}>
       <FormLabel label={label} />
-      <select name={name} className={styling}>
+      <select name={name} value={value} className={styling} onChange={onChange}>
         <option value="">Select...</option>
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
