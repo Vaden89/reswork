@@ -21,120 +21,137 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
             <Text>{data.location} · </Text>
             <Text> {data.email} ·</Text>
             <Text> {data.phone} ·</Text>
-            {data.links.map((link) => (
-              <Link href={link.url}>{link.label}</Link>
-            ))}
+            {data.links.length > 0 &&
+              data.links.map((link, idx) => (
+                <View>
+                  <Link href={link.url}>{link.label}</Link>
+                  {idx !== data.links.length - 1 && ' · '}
+                </View>
+              ))}
           </View>
         </View>
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text>SKILLS</Text>
-          </View>
-          <View style={styles.skillSection}>
-            {data.skills.map((skill, index) => (
-              <View style={styles.subSkillSection} key={index}>
-                <Text style={styles.skillName}>
-                  {capitalizeFirst(skill.skill_name)}:{' '}
-                </Text>
-                <View style={styles.subSkillContainer}>
-                  {skill.sub_skills.map((subSkill, subIndex) => (
-                    <Text key={subIndex}>
-                      {subSkill}
-                      {subIndex !== skill.sub_skills.length - 1 ? ', ' : ''}
-                    </Text>
-                  ))}
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text>WORK EXPERIENCE</Text>
-          </View>
-          <View style={styles.workExperienceSection}>
-            {data.workExperience.map((experience, index) => (
-              <View key={index} style={styles.workExperienceContainer}>
-                <View style={styles.workExperienceMetaData}>
-                  <Text style={styles.companyName}>{experience.company}</Text>
-                  <Text>{experience.location}</Text>
-                </View>
-                <View style={styles.workExperienceMetaData}>
-                  <Text>{experience.position}</Text>
 
-                  <Text>
-                    {experience.start_date} - {experience.end_date}
-                  </Text>
-                </View>
-                <View style={styles.responsibilitiesSection}>
-                  {experience.responsibilities.map(
-                    (responsibility, respIndex) => (
-                      <View key={respIndex} style={styles.bulletItem}>
-                        <Text style={styles.bullet}>•</Text>
-                        <Text style={styles.bulletText}>{responsibility}</Text>
-                      </View>
-                    ),
-                  )}
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text>PROJECTS</Text>
-          </View>
-          <View style={styles.projectSection}>
-            {data.projects.map((project, index) => (
-              <View key={index} style={styles.projectSection}>
-                <View style={styles.projectMetaData}>
-                  <View style={styles.projectHeaderSection}>
-                    <Text style={styles.projectName}>{project.name} - </Text>
-                    <View>
-                      {project.technologies.length > 0 && (
-                        <Text>{project.technologies.join(', ')}</Text>
-                      )}
-                    </View>
-                  </View>
-                  <Link href={project.live_url}>{project.live_url}</Link>
-                </View>
-                <View style={{}}>
-                  <Text>{project.description}</Text>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-        {data.education.map((education, index) => (
-          <View key={index} style={styles.section}>
+        {data.skills.length > 0 && (
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Text>
-                {education.degree_type} {education.course}
-              </Text>
+              <Text>SKILLS</Text>
+            </View>
+            <View style={styles.skillSection}>
+              {data.skills.map((skill, index) => (
+                <View style={styles.subSkillSection} key={index}>
+                  <Text style={styles.skillName}>
+                    {capitalizeFirst(skill.skill_name)}:{' '}
+                  </Text>
+                  <View style={styles.subSkillContainer}>
+                    {skill.sub_skills.map((subSkill, subIndex) => (
+                      <Text key={subIndex}>
+                        {subSkill}
+                        {subIndex !== skill.sub_skills.length - 1 ? ', ' : ''}
+                      </Text>
+                    ))}
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {data.workExperience.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text>WORK EXPERIENCE</Text>
+            </View>
+            <View style={styles.workExperienceSection}>
+              {data.workExperience.map((experience, index) => (
+                <View key={index} style={styles.workExperienceContainer}>
+                  <View style={styles.workExperienceMetaData}>
+                    <Text style={styles.companyName}>{experience.company}</Text>
+                    <Text>{experience.location}</Text>
+                  </View>
+                  <View style={styles.workExperienceMetaData}>
+                    <Text>{experience.position}</Text>
+
+                    <Text>
+                      {experience.start_date} - {experience.end_date}
+                    </Text>
+                  </View>
+                  <View style={styles.responsibilitiesSection}>
+                    {experience.responsibilities.map(
+                      (responsibility, respIndex) => (
+                        <View key={respIndex} style={styles.bulletItem}>
+                          <Text style={styles.bullet}>•</Text>
+                          <Text style={styles.bulletText}>
+                            {responsibility}
+                          </Text>
+                        </View>
+                      ),
+                    )}
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {data.projects.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text>PROJECTS</Text>
             </View>
             <View style={styles.projectSection}>
-              <View style={styles.projectMetaData}>
-                <Text style={{ fontWeight: 'semibold' }}>
-                  {education.school}
-                </Text>
-                <Text>{education.location}</Text>
-              </View>
-              <View style={styles.projectMetaData}>
-                <View style={{ flexDirection: 'row', gap: 5 }}>
-                  <Text>
-                    {education.degree_type} {education.course}
-                  </Text>
-                  <Text style={{ fontStyle: 'italic' }}>
-                    GPA: {education.gpa}
-                  </Text>
+              {data.projects.map((project, index) => (
+                <View key={index} style={styles.projectSection}>
+                  <View style={styles.projectMetaData}>
+                    <View style={styles.projectHeaderSection}>
+                      <Text style={styles.projectName}>{project.name} - </Text>
+                      <View>
+                        {project.technologies.length > 0 && (
+                          <Text>{project.technologies.join(', ')}</Text>
+                        )}
+                      </View>
+                    </View>
+                    <Link href={project.live_url}>{project.live_url}</Link>
+                  </View>
+                  <View style={{}}>
+                    <Text>{project.description}</Text>
+                  </View>
                 </View>
-                <Text>
-                  {education.start_date} - {education.end_date}
-                </Text>
-              </View>
+              ))}
             </View>
           </View>
-        ))}
+        )}
+
+        {data.education.length > 0 &&
+          data.education.map((education, index) => (
+            <View key={index} style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text>
+                  {education.degree_type} {education.course}
+                </Text>
+              </View>
+              <View style={styles.projectSection}>
+                <View style={styles.projectMetaData}>
+                  <Text style={{ fontWeight: 'semibold' }}>
+                    {education.school}
+                  </Text>
+                  <Text>{education.location}</Text>
+                </View>
+                <View style={styles.projectMetaData}>
+                  <View style={{ flexDirection: 'row', gap: 5 }}>
+                    <Text>
+                      {education.degree_type} {education.course}
+                    </Text>
+                    <Text style={{ fontStyle: 'italic' }}>
+                      GPA: {education.gpa}
+                    </Text>
+                  </View>
+                  <Text>
+                    {education.start_date} - {education.end_date}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ))}
       </Page>
     </Document>
   )
