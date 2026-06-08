@@ -1,4 +1,4 @@
-import type { TemplateData } from '#/components/templates/template-1'
+import type { TemplateData } from '#/types/template.type'
 import { useState } from 'react'
 
 export type SetField = <T extends keyof TemplateData>(

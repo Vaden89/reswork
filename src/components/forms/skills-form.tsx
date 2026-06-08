@@ -2,7 +2,7 @@ import { Plus, Trash2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { Button } from '../common/button'
 import { FormField } from '../common/form'
-import type { TemplateData } from '../templates/template-1'
+import type { TemplateData } from '#/types/template.type'
 import type { SetField } from '#/hooks/use-resume-data'
 
 type Skill = TemplateData['skills'][number]

@@ -1,10 +1,10 @@
+import { useRef, useState } from 'react'
 import { Button } from '#/components/common/button'
 import { NavBar } from '#/components/common/nav-bar'
 import { TEMPLATES } from '#/data/templates/registry'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
-import { useRef, useState } from 'react'
 import { TemplateCard } from '#/components/template-card'
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/builder/')({
   component: RouteComponent,

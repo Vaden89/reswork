@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
-import type { TemplateData } from '#/components/templates/template-1'
 import { Button } from '#/components/common/button'
-import { ArrowRight, FileText, LayoutDashboard, Pencil } from 'lucide-react'
 import { NavBar } from '#/components/common/nav-bar'
+import type { TemplateData } from '#/types/template.type'
+import { createFileRoute } from '@tanstack/react-router'
+import { ArrowRight, FileText, LayoutDashboard, Pencil } from 'lucide-react'
 
 export const Route = createFileRoute('/')({ component: Home })
 
