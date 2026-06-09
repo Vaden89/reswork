@@ -33,7 +33,7 @@ function RouteComponent() {
       <header className="w-full max-w-6xl">
         <NavBar />
       </header>
-      <section className="w-full max-w-6xl px-8 xl:px-0 py-20">
+      <section className="w-full max-w-6xl px-8 xl:px-0 py-10 min-[1440px]:py-20">
         <div className="flex flex-col gap-2">
           <h2 className="text-6xl font-semibold">Template Gallery</h2>
           <p className="text-secondary text-lg font-medium">

@@ -14,7 +14,10 @@ interface GeneralInfoFormProps {
   setField: SetField
 }
 
-export const GeneralInfoForm = ({ resumeData, setField }: GeneralInfoFormProps) => {
+export const GeneralInfoForm = ({
+  resumeData,
+  setField,
+}: GeneralInfoFormProps) => {
   const links = resumeData.links
 
   useEffect(() => {
@@ -25,10 +28,15 @@ export const GeneralInfoForm = ({ resumeData, setField }: GeneralInfoFormProps) 
 
   const addLink = () => updateLinks([...links, EMPTY_LINK])
 
-  const removeLink = (i: number) => updateLinks(links.filter((_, idx) => idx !== i))
+  const removeLink = (i: number) =>
+    updateLinks(links.filter((_, idx) => idx !== i))
 
   const updateLink = (i: number, field: keyof Link, value: string) =>
-    updateLinks(links.map((link, idx) => (idx === i ? { ...link, [field]: value } : link)))
+    updateLinks(
+      links.map((link, idx) =>
+        idx === i ? { ...link, [field]: value } : link,
+      ),
+    )
 
   return (
     <>
@@ -140,13 +148,17 @@ function LinkRow({ link, canRemove, onRemove, onUpdate }: LinkRowProps) {
         <FormField
           label="URL"
           name="link_url"
-          classname="flex-1"
+          classname="flex-1 w-3/6"
           placeholder="https://github.com/username"
           value={link.url}
           onChange={(e) => onUpdate('url', e.target.value)}
         />
         {canRemove && (
-          <button type="button" onClick={onRemove} className="text-red-500 mb-1">
+          <button
+            type="button"
+            onClick={onRemove}
+            className="text-red-500 mb-1"
+          >
             <Trash2 size={24} />
           </button>
         )}

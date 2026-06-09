@@ -20,9 +20,9 @@ export const Route = createFileRoute('/builder/preview')({
 
 function RouteComponent() {
   const { resumeData, setField } = useResumeData()
-  const [activeSection, setActiveSection] = useState('general')
-
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   const debouncedResumeData = useDebounce(resumeData, 600)
+  const [activeSection, setActiveSection] = useState('general')
   const [instance, updatePDF] = usePDF()
 
   useEffect(() => {
@@ -34,30 +34,34 @@ function RouteComponent() {
       <header>
         <NavBar />
       </header>
-      <section className="w-full flex-1 grid grid-cols-7">
-        <ResumeSectionSideBar
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        />
-        <div className="col-span-3 flex flex-col p-8 px-12 overflow-y-auto h-[80vh]">
-          {activeSection === 'general' && (
-            <GeneralInfoForm resumeData={resumeData} setField={setField} />
-          )}
-          {activeSection === 'skills' && (
-            <SkillsForm resumeData={resumeData} setField={setField} />
-          )}
-          {activeSection === 'experience' && (
-            <ExperienceForm resumeData={resumeData} setField={setField} />
-          )}
-          {activeSection === 'education' && (
-            <EducationForm resumeData={resumeData} setField={setField} />
-          )}
-          {activeSection === 'projects' && (
-            <ProjectsForm resumeData={resumeData} setField={setField} />
-          )}
+      <section className="w-full flex-1 grid grid-cols-2 overflow-hidden">
+        <div className="shrink-0 flex">
+          <ResumeSectionSideBar
+            isOpen={sidebarOpen}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+            onToggle={() => setSidebarOpen((prev) => !prev)}
+          />
+          <div className="flex-1 flex flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto h-[80vh] noscroll">
+            {activeSection === 'general' && (
+              <GeneralInfoForm resumeData={resumeData} setField={setField} />
+            )}
+            {activeSection === 'skills' && (
+              <SkillsForm resumeData={resumeData} setField={setField} />
+            )}
+            {activeSection === 'experience' && (
+              <ExperienceForm resumeData={resumeData} setField={setField} />
+            )}
+            {activeSection === 'education' && (
+              <EducationForm resumeData={resumeData} setField={setField} />
+            )}
+            {activeSection === 'projects' && (
+              <ProjectsForm resumeData={resumeData} setField={setField} />
+            )}
+          </div>
         </div>
-        <div className="col-span-3 flex flex-col">
-          <div className="py-5 px-4 flex items-center justify-between border-b border-border">
+        <div className="flex-1 flex flex-col">
+          <div className="py-2 xl:py-5 px-2 xl:px-4 flex items-center justify-between border-b border-border">
             <span className="text-lg text-secondary font-medium">
               LIVE PREVIEW
             </span>
