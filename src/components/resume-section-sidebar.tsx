@@ -1,6 +1,8 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { RESUME_SECTIONS } from '#/data/templates/sections'
+import { useState } from 'react'
+import { capitalizeFirst } from '#/utils/string'
 import type { Dispatch, SetStateAction } from 'react'
+import { RESUME_SECTIONS } from '#/data/templates/sections'
+import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface ResumeSectionSidebarProps {
   activeSection: string
@@ -16,8 +18,8 @@ export function ResumeSectionSideBar({
   setActiveSection,
 }: ResumeSectionSidebarProps) {
   return (
-    <div
-      className={`${isOpen ? 'w-48 px-3' : 'w-15 px-2'}  shrink-0 transition-all duration-200 flex flex-col border-r border-border py-8`}
+    <aside
+      className={`${isOpen ? 'w-48 px-3' : 'w-15 px-2'} hidden shrink-0 transition-all duration-200 sm:flex flex-col border-r border-border py-8`}
     >
       <div
         className={`flex ${isOpen ? 'items-center justify-between' : 'justify-center'}`}
@@ -53,6 +55,48 @@ export function ResumeSectionSideBar({
             </div>
           )
         })}
+      </div>
+    </aside>
+  )
+}
+
+export function ResumeSectionDropDown({
+  activeSection,
+  setActiveSection,
+}: Partial<ResumeSectionSidebarProps>) {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+
+  return (
+    <div className="flex items-center justify-between py-3 px-3 w-full border-b border-border relative">
+      <div className="relative">
+        <button
+          onClick={() => setIsDropDownOpen((p) => !p)}
+          className="flex items-center justify-start"
+        >
+          <span className="w-28 text-start pl-2">
+            {capitalizeFirst(activeSection ?? '')}
+          </span>
+          <ChevronDown size={18} />
+        </button>
+
+        {isDropDownOpen && (
+          <div className="absolute flex items-start flex-col top-8 bg-white w-full rounded-lg px-4 frosted-glass">
+            {RESUME_SECTIONS.map((section) => {
+              return (
+                <button
+                  key={section.id}
+                  className="py-1 text-sm"
+                  onClick={() => {
+                    setIsDropDownOpen(false)
+                    setActiveSection!(section.id)
+                  }}
+                >
+                  {section.label}
+                </button>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

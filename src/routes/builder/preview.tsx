@@ -6,13 +6,17 @@ import { SkillsForm } from '#/components/forms/skills-form'
 import { EducationForm } from '#/components/forms/education-form'
 import { ExperienceForm } from '#/components/forms/experience-form'
 import { GeneralInfoForm } from '#/components/forms/general-info-form'
-import { ResumeSectionSideBar } from '#/components/resume-section-sidebar'
+import {
+  ResumeSectionDropDown,
+  ResumeSectionSideBar,
+} from '#/components/resume-section-sidebar'
 import { Button } from '#/components/common/button'
-import { Download } from 'lucide-react'
+import { ChevronDown, Download } from 'lucide-react'
 import { usePDF } from '@react-pdf/renderer'
 import { Template1 } from '#/components/templates/template-1'
 import { useDebounce } from '#/hooks/use-debounce'
 import { ProjectsForm } from '#/components/forms/projects-form'
+import { capitalizeFirst } from '#/utils/string'
 
 export const Route = createFileRoute('/builder/preview')({
   component: RouteComponent,
@@ -34,15 +38,19 @@ function RouteComponent() {
       <header>
         <NavBar />
       </header>
-      <section className="w-full flex-1 grid grid-cols-2 overflow-hidden">
-        <div className="shrink-0 flex">
+      <ResumeSectionDropDown
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+      />
+      <section className="w-full flex-1 sm:grid grid-cols-2 overflow-hidden">
+        <div className="shrink-0 flex w-full">
           <ResumeSectionSideBar
             isOpen={sidebarOpen}
             activeSection={activeSection}
             setActiveSection={setActiveSection}
             onToggle={() => setSidebarOpen((prev) => !prev)}
           />
-          <div className="flex-1 flex flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto h-[80vh] noscroll">
+          <div className=" flex-1 flex flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto sm:h-[80vh] noscroll">
             {activeSection === 'general' && (
               <GeneralInfoForm resumeData={resumeData} setField={setField} />
             )}
@@ -60,7 +68,7 @@ function RouteComponent() {
             )}
           </div>
         </div>
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 hidden sm:flex flex-col">
           <div className="py-2 xl:py-5 px-2 xl:px-4 flex items-center justify-between border-b border-border">
             <span className="text-lg text-secondary font-medium">
               LIVE PREVIEW

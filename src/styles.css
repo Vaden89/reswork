@@ -65,3 +65,17 @@ button {
 .nav-link:hover::after {
   width: 100%;
 }
+
+.frosted-glass {
+  /* Semi-transparent background layer */
+  background: rgba(255, 255, 255, 0.15);
+
+  /* Blurs the content hiding directly behind the element */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+
+  /* Optional but recommended enhancements for realism */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+}
