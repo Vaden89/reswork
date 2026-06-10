@@ -93,13 +93,12 @@ export const ExperienceForm = ({
         <div className="w-full flex items-center justify-between">
           <span className="text-2xl font-medium">Positions</span>
           <Button
+            text="Add Position"
             variants="ghost"
             icon={<Plus size={20} />}
             iconPosition="left"
             onClick={addExperience}
-          >
-            Add Position
-          </Button>
+          />
         </div>
         {experiences.map((exp, i) => (
           <WorkExperienceCard
@@ -240,13 +239,12 @@ function WorkExperienceCard({
           ))}
         </div>
         <Button
+          text="Add Responsibility"
           variants="ghost"
           icon={<Plus size={16} />}
           iconPosition="left"
           onClick={onAddResponsibility}
-        >
-          Add Responsibility
-        </Button>
+        />
       </div>
     </div>
   )

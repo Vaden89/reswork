@@ -1,24 +1,15 @@
 import { useEffect } from 'react'
 import { Button } from '../common/button'
 import { Plus, Trash2 } from 'lucide-react'
-import { DEGREE_TYPES } from '#/data/degree-types'
 import { FormField, FormSelect } from '../common/form'
 import type { SetField } from '#/hooks/use-resume-data'
+import { DEGREE_TYPES } from '#/data/constants/degree-types'
+import { EMPTY_EDUCATION } from '#/data/constants/form-defaults'
 import type { Education, TemplateData } from '#/types/template.type'
 
 interface EducationFormProps {
   resumeData: TemplateData
   setField: SetField
-}
-
-const EMPTY_EDUCATION: Education = {
-  course: '',
-  degree_type: '',
-  end_date: '',
-  gpa: '',
-  location: '',
-  school: '',
-  start_date: '',
 }
 
 export const EducationForm = ({ resumeData, setField }: EducationFormProps) => {
@@ -36,9 +27,15 @@ export const EducationForm = ({ resumeData, setField }: EducationFormProps) => {
   const removeEducation = (i: number) =>
     updateEducation(education.filter((_, idx) => idx !== i))
 
-  const updateEducationField = (i: number, field: keyof Education, value: string) =>
+  const updateEducationField = (
+    i: number,
+    field: keyof Education,
+    value: string,
+  ) =>
     updateEducation(
-      education.map((edu, idx) => (idx === i ? { ...edu, [field]: value } : edu)),
+      education.map((edu, idx) =>
+        idx === i ? { ...edu, [field]: value } : edu,
+      ),
     )
 
   return (
@@ -53,13 +50,12 @@ export const EducationForm = ({ resumeData, setField }: EducationFormProps) => {
         <div className="w-full flex items-center justify-between">
           <span className="text-2xl font-medium">Degrees</span>
           <Button
+            text="Add Degree"
             variants="ghost"
             icon={<Plus size={20} />}
             iconPosition="left"
             onClick={addEducation}
-          >
-            Add Degree
-          </Button>
+          />
         </div>
         {education.map((edu, i) => (
           <EducationCard
@@ -82,7 +78,12 @@ interface EducationCardProps {
   onUpdate: (field: keyof Education, value: string) => void
 }
 
-function EducationCard({ edu, canRemove, onRemove, onUpdate }: EducationCardProps) {
+function EducationCard({
+  edu,
+  canRemove,
+  onRemove,
+  onUpdate,
+}: EducationCardProps) {
   return (
     <div className="w-full p-4 border border-border flex flex-col gap-4">
       <div className="w-full flex items-start gap-2">
@@ -103,7 +104,11 @@ function EducationCard({ edu, canRemove, onRemove, onUpdate }: EducationCardProp
           />
         </div>
         {canRemove && (
-          <button type="button" onClick={onRemove} className="text-red-500 mt-6">
+          <button
+            type="button"
+            onClick={onRemove}
+            className="text-red-500 mt-6"
+          >
             <Trash2 size={24} />
           </button>
         )}

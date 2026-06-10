@@ -1,15 +1,9 @@
+import type {
+  FormFieldProps,
+  FormLabelProps,
+  FormSelectProps,
+} from '#/types/form.type'
 import { cn } from '#/utils/cn'
-import type { ChangeEventHandler } from 'react'
-
-interface FormFieldProps {
-  name: string
-  label?: string
-  value?: string
-  classname?: string
-  placeholder?: string
-  inputClassName?: string
-  onChange?: ChangeEventHandler<HTMLInputElement>
-}
 
 export function FormField({
   name,
@@ -38,15 +32,6 @@ export function FormField({
   )
 }
 
-interface FormSelectProps {
-  name: string
-  label: string
-  options: { value: string; label: string }[]
-  value?: string
-  classname?: string
-  onChange?: ChangeEventHandler<HTMLSelectElement>
-}
-
 export function FormSelect({
   label,
   name,
@@ -71,11 +56,6 @@ export function FormSelect({
       </select>
     </div>
   )
-}
-
-interface FormLabelProps {
-  required?: boolean
-  label: string
 }
 
 function FormLabel({ label, required = true }: FormLabelProps) {

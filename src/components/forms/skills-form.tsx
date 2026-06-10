@@ -1,7 +1,7 @@
-import { Plus, Trash2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { Button } from '../common/button'
 import { FormField } from '../common/form'
+import { Plus, Trash2 } from 'lucide-react'
 import type { TemplateData } from '#/types/template.type'
 import type { SetField } from '#/hooks/use-resume-data'
 
@@ -83,13 +83,12 @@ function SkillGroupCard({
           ))}
         </div>
         <Button
+          text="Add Sub-skill"
           variants="ghost"
           icon={<Plus size={16} />}
           iconPosition="left"
           onClick={onAddSubSkill}
-        >
-          Add Sub-skill
-        </Button>
+        />
       </div>
     </div>
   )
@@ -163,13 +162,12 @@ export const SkillsForm = ({ resumeData, setField }: SkillsFormProps) => {
         <div className="w-full flex items-center justify-between">
           <span className="text-2xl font-medium">Skill Groups</span>
           <Button
+            text="Add Skill Group"
             variants="ghost"
             icon={<Plus size={20} />}
             iconPosition="left"
             onClick={addSkill}
-          >
-            Add Skill Group
-          </Button>
+          />
         </div>
         {skills.map((skill, i) => (
           <SkillGroupCard

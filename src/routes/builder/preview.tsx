@@ -66,6 +66,7 @@ function RouteComponent() {
               LIVE PREVIEW
             </span>
             <Button
+              text="Export PDF"
               icon={<Download size={20} />}
               iconPosition="left"
               className="px-4 text-[13px] py-2"
@@ -76,9 +77,7 @@ function RouteComponent() {
                 a.download = 'resume.pdf'
                 a.click()
               }}
-            >
-              Export PDF
-            </Button>
+            />
           </div>
           <div className="flex-1 border-l border-border relative">
             {instance.loading && (

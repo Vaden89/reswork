@@ -57,21 +57,16 @@ function RouteComponent() {
         </div>
         <div className="w-full flex items-center justify-between px-2 mt-4">
           <div className="flex gap-2">
-            <Button onClick={() => handleScroll('left')} className="py-2 px-3">
-              <ArrowLeftIcon size={16} />
-            </Button>
-            <Button onClick={() => handleScroll('right')} className="py-2 px-3">
-              <ArrowRightIcon size={16} />
-            </Button>
+            <Button onClick={() => handleScroll('left')} className="py-2 px-3" icon={<ArrowLeftIcon size={16} />} />
+            <Button onClick={() => handleScroll('right')} className="py-2 px-3" icon={<ArrowRightIcon size={16} />} />
           </div>
           <Link to="/builder/preview">
             <Button
+              text="CONTINUE"
               iconPosition="right"
               className="py-2 px-3"
               icon={<ArrowRightIcon size={16} />}
-            >
-              CONTINUE
-            </Button>
+            />
           </Link>
         </div>
       </section>

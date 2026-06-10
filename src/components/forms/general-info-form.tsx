@@ -4,10 +4,8 @@ import { Button } from '../common/button'
 import { FormField } from '../common/form'
 import type { Link, TemplateData } from '#/types/template.type'
 import type { SetField } from '#/hooks/use-resume-data'
-
-const MAX_LINKS = 3
-
-const EMPTY_LINK: Link = { label: '', url: '' }
+import { EMPTY_LINK, MAX_LINKS } from '#/data/constants/form-defaults'
+import { LinkRow } from '../link-row'
 
 interface GeneralInfoFormProps {
   resumeData: TemplateData
@@ -101,13 +99,12 @@ export const GeneralInfoForm = ({
           <span className="text-2xl font-medium">Web Links</span>
           {links.length < MAX_LINKS && (
             <Button
+              text="Add Link"
               variants="ghost"
               icon={<Plus size={20} />}
               iconPosition="left"
               onClick={addLink}
-            >
-              Add Link
-            </Button>
+            />
           )}
         </div>
         <div className="w-full flex flex-col gap-3">
@@ -123,46 +120,5 @@ export const GeneralInfoForm = ({
         </div>
       </div>
     </>
-  )
-}
-
-interface LinkRowProps {
-  link: Link
-  canRemove: boolean
-  onRemove: () => void
-  onUpdate: (field: keyof Link, value: string) => void
-}
-
-function LinkRow({ link, canRemove, onRemove, onUpdate }: LinkRowProps) {
-  return (
-    <div className="w-full p-4 border border-border">
-      <div className="w-full flex items-end gap-2">
-        <FormField
-          label="Label"
-          name="link_label"
-          placeholder="Github"
-          classname="w-2/6"
-          value={link.label}
-          onChange={(e) => onUpdate('label', e.target.value)}
-        />
-        <FormField
-          label="URL"
-          name="link_url"
-          classname="flex-1 w-3/6"
-          placeholder="https://github.com/username"
-          value={link.url}
-          onChange={(e) => onUpdate('url', e.target.value)}
-        />
-        {canRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="text-red-500 mb-1"
-          >
-            <Trash2 size={24} />
-          </button>
-        )}
-      </div>
-    </div>
   )
 }
