@@ -1,21 +1,13 @@
-import { Plus, Trash2 } from 'lucide-react'
 import { useEffect } from 'react'
+import { LinkRow } from '../link-row'
 import { Button } from '../common/button'
 import { FormField } from '../common/form'
-import type { Link, TemplateData } from '#/types/template.type'
-import type { SetField } from '#/hooks/use-resume-data'
+import { Plus, Trash2 } from 'lucide-react'
+import type { Link } from '#/types/template.type'
+import type { FormProps } from '#/types/section-forms.type'
 import { EMPTY_LINK, MAX_LINKS } from '#/data/constants/form-defaults'
-import { LinkRow } from '../link-row'
 
-interface GeneralInfoFormProps {
-  resumeData: TemplateData
-  setField: SetField
-}
-
-export const GeneralInfoForm = ({
-  resumeData,
-  setField,
-}: GeneralInfoFormProps) => {
+export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
   const links = resumeData.links
 
   useEffect(() => {

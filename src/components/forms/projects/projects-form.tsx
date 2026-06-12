@@ -1,18 +1,12 @@
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useEffect } from 'react'
-import { Button } from '../common/button'
-import { FormField } from '../common/form'
-import type { SetField } from '#/hooks/use-resume-data'
-import type { Project, TemplateData } from '#/types/template.type'
+import { Button } from '../../common/button'
+import { ProjectCard } from '../../project-card'
+import type { Project } from '#/types/template.type'
+import type { FormProps } from '#/types/section-forms.type'
 import { EMPTY_PROJECT } from '#/data/constants/form-defaults'
-import { ProjectCard } from '../project-card'
 
-interface ProjectFormProps {
-  resumeData: TemplateData
-  setField: SetField
-}
-
-export function ProjectsForm({ resumeData, setField }: ProjectFormProps) {
+export function ProjectsForm({ resumeData, setField }: FormProps) {
   const projects = resumeData.projects
 
   useEffect(() => {
