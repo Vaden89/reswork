@@ -17,7 +17,7 @@ export interface Link {
   url: string
 }
 
-interface Skills {
+export interface Skills {
   skill_name: string
   sub_skills: string[]
 }
