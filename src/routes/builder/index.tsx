@@ -1,10 +1,10 @@
+import { useRef, useState } from 'react'
 import { Button } from '#/components/common/button'
 import { NavBar } from '#/components/common/nav-bar'
 import { TEMPLATES } from '#/data/templates/registry'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
-import { useRef, useState } from 'react'
 import { TemplateCard } from '#/components/template-card'
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/builder/')({
   component: RouteComponent,
@@ -33,7 +33,7 @@ function RouteComponent() {
       <header className="w-full max-w-6xl">
         <NavBar />
       </header>
-      <section className="w-full max-w-6xl px-8 xl:px-0 py-20">
+      <section className="w-full max-w-6xl px-8 xl:px-0 py-10 min-[1440px]:py-20">
         <div className="flex flex-col gap-2">
           <h2 className="text-6xl font-semibold">Template Gallery</h2>
           <p className="text-secondary text-lg font-medium">
@@ -57,21 +57,16 @@ function RouteComponent() {
         </div>
         <div className="w-full flex items-center justify-between px-2 mt-4">
           <div className="flex gap-2">
-            <Button onClick={() => handleScroll('left')} className="py-2 px-3">
-              <ArrowLeftIcon size={16} />
-            </Button>
-            <Button onClick={() => handleScroll('right')} className="py-2 px-3">
-              <ArrowRightIcon size={16} />
-            </Button>
+            <Button onClick={() => handleScroll('left')} className="py-2 px-3" icon={<ArrowLeftIcon size={16} />} />
+            <Button onClick={() => handleScroll('right')} className="py-2 px-3" icon={<ArrowRightIcon size={16} />} />
           </div>
           <Link to="/builder/preview">
             <Button
+              text="CONTINUE"
               iconPosition="right"
               className="py-2 px-3"
               icon={<ArrowRightIcon size={16} />}
-            >
-              CONTINUE
-            </Button>
+            />
           </Link>
         </div>
       </section>

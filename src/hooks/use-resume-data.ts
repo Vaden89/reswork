@@ -1,0 +1,31 @@
+import type { TemplateData } from '#/types/template.type'
+import { useState } from 'react'
+
+export type SetField = <T extends keyof TemplateData>(
+  key: T,
+  value: TemplateData[T],
+) => void
+
+const defaultData: TemplateData = {
+  first_name: '',
+  last_name: '',
+  location: '',
+  email: '',
+  phone: '',
+  links: [],
+  profession: '',
+  skills: [],
+  workExperience: [],
+  projects: [],
+  education: [],
+}
+
+export function useResumeData() {
+  const [resumeData, setResumeData] = useState<TemplateData>(defaultData)
+
+  const setField: SetField = (key, value) => {
+    setResumeData((prev) => ({ ...prev, [key]: value }))
+  }
+
+  return { resumeData, setField }
+}
