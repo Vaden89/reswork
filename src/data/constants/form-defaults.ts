@@ -1,4 +1,9 @@
-import type { Education, Link, Project } from '#/types/template.type'
+import type {
+  Education,
+  Link,
+  Project,
+  WorkExperience,
+} from '#/types/template.type'
 
 export const EMPTY_EDUCATION: Education = {
   course: '',
@@ -19,4 +24,13 @@ export const EMPTY_PROJECT: Project = {
   live_url: '',
   description: '',
   technologies: [''],
+}
+
+export const EMPTY_EXPERIENCE: WorkExperience = {
+  company: '',
+  end_date: '',
+  location: '',
+  position: '',
+  responsibilities: [''],
+  start_date: '',
 }
