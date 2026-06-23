@@ -1,5 +1,4 @@
 import { Button } from '#/components/common/button'
-import { NavBar } from '#/components/common/nav-bar'
 import { createFileRoute } from '@tanstack/react-router'
 import { ArrowRight, FileText, LayoutDashboard, Pencil } from 'lucide-react'
 
@@ -8,9 +7,6 @@ export const Route = createFileRoute('/')({ component: Home })
 function Home() {
   return (
     <main className="w-full flex flex-col justify-center items-center">
-      <header className="max-w-6xl w-full">
-        <NavBar />
-      </header>
       <section className="max-w-6xl px-4 sm:px-8 xl:px-0 w-full flex justify-between items-center mt-12 gap-10">
         <div className="sm:w-1/2 flex flex-col gap-5">
           <h1 className="text-5xl font-bold">

@@ -26,7 +26,7 @@ export const MobileMenu = () => {
 
   return (
     <>
-      <button onClick={() => setIsMenuOpen((p) => !p)}>
+      <button className="sm:hidden" onClick={() => setIsMenuOpen((p) => !p)}>
         <Menu size={20} />
       </button>
       <AnimatePresence>

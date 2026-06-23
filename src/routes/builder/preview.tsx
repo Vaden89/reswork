@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { NavBar } from '#/components/common/nav-bar'
 import { useResumeData } from '#/hooks/use-resume-data'
 import { createFileRoute } from '@tanstack/react-router'
 import { SkillsForm } from '#/components/forms/skills/skills-form'
@@ -31,9 +30,6 @@ function RouteComponent() {
 
   return (
     <main className="w-full flex-1 flex flex-col">
-      <header>
-        <NavBar />
-      </header>
       <section className="w-full flex-1 grid grid-cols-2 overflow-hidden">
         <div className="shrink-0 flex">
           <ResumeSectionSideBar

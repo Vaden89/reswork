@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { Button } from '#/components/common/button'
-import { NavBar } from '#/components/common/nav-bar'
 import { TEMPLATES } from '#/data/templates/registry'
 import { TemplateCard } from '#/components/template-card'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
@@ -30,9 +29,6 @@ function RouteComponent() {
 
   return (
     <main className="w-full flex flex-col justify-center items-center">
-      <header className="w-full max-w-6xl">
-        <NavBar />
-      </header>
       <section className="w-full max-w-6xl px-8 xl:px-0 py-10 min-[1440px]:py-20">
         <div className="flex flex-col gap-2">
           <h2 className="text-6xl font-semibold">Template Gallery</h2>
