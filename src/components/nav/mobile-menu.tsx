@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'motion/react'
 
 export const MobileMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathname = useLocation({ select: (location: any) => location.pathname })
+  const { pathname } = useLocation()
 
   const listVariant = {
     animate: {
@@ -35,7 +35,7 @@ export const MobileMenu = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { delay: 0.2, duration: 0.5 } }}
-            className="w-screen h-full bg-neutral fixed inset-0 flex flex-col justify-between p-4 px-3"
+            className="w-screen h-full bg-neutral fixed inset-0 flex flex-col justify-between p-4 px-3 z-51"
           >
             <div className="w-full flex items-center justify-between">
               <Link to="/">
