@@ -36,7 +36,7 @@ function RouteComponent() {
           </h2>
           <p className="text-secondary sm:text-lg font-medium">
             Select a foundation for your professional narrative. Our minimalist,
-            editorially-structured <br className="hidden sm:block" /> layouts
+            editorially-structured <br className="hidden lg:block" /> layouts
             ensure your content remains the focal point.
           </p>
         </div>
