@@ -52,12 +52,13 @@ export function WorkExperienceCard({
           </button>
         )}
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <FormField
-          label="Job Title"
           name="position"
-          placeholder="Software Engineer"
+          label="Job Title"
           value={exp.position}
+          placeholder="Software Engineer"
+          classname="col-span-2"
           onChange={(e) => onUpdate('position', e.target.value)}
         />
         <FormField
