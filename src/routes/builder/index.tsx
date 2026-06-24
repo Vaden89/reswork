@@ -53,7 +53,8 @@ function RouteComponent() {
             />
           ))}
         </div>
-        <div className="w-full flex items-center justify-between px-2 mt-4">
+
+        <div className="w-full flex items-center justify-between px-2 my-4 lg:mb-0">
           <div className="flex gap-2">
             <Button
               onClick={() => handleScroll('left')}

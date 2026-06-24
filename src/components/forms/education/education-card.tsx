@@ -19,7 +19,7 @@ export function EducationCard({
   return (
     <div className="w-full p-4 border border-border flex flex-col gap-4">
       <div className="w-full flex items-start gap-2">
-        <div className="flex-1 grid grid-cols-2 gap-4">
+        <div className="flex-1 grid grid-cols-2 gap-2 sm:gap-4">
           <FormField
             label="School"
             name="school"
@@ -45,7 +45,7 @@ export function EducationCard({
           </button>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <FormSelect
           label="Degree Type"
           name="degree_type"
@@ -61,7 +61,7 @@ export function EducationCard({
           onChange={(e) => onUpdate('course', e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
         <FormField
           label="Start Date"
           name="start_date"
@@ -77,10 +77,11 @@ export function EducationCard({
           onChange={(e) => onUpdate('end_date', e.target.value)}
         />
         <FormField
-          label="GPA"
           name="gpa"
-          placeholder="4.0"
+          label="GPA"
           value={edu.gpa}
+          placeholder="4.0"
+          classname="col-span-2 sm:col-span-1"
           onChange={(e) => onUpdate('gpa', e.target.value)}
         />
       </div>
