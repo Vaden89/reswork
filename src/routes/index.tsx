@@ -1,5 +1,5 @@
 import { Button } from '#/components/common/button'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight, FileText, LayoutDashboard, Pencil } from 'lucide-react'
 
 export const Route = createFileRoute('/')({ component: Home })
@@ -16,11 +16,13 @@ function Home() {
             Precision and simplicity for modern professional. Construct a
             document that reflects your structural value
           </p>
-          <Button
-            text="START BUILDING"
-            icon={<ArrowRight size={16} />}
-            className="py-2 px-5 capitalize"
-          />
+          <Link to="/builder">
+            <Button
+              text="START BUILDING"
+              icon={<ArrowRight size={16} />}
+              className="py-2 px-5 capitalize"
+            />
+          </Link>
         </div>
         <img
           src="/images/landing.svg"
