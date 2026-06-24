@@ -19,8 +19,8 @@ export const ExperienceForm = ({ resumeData, setField }: FormProps) => {
 
   const addExperience = () =>
     updateExperiences([
-      ...experiences,
       { ...EMPTY_EXPERIENCE, responsibilities: [''] },
+      ...experiences,
     ])
 
   const removeExperience = (i: number) =>

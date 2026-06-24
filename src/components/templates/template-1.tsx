@@ -98,7 +98,7 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
             <View style={styles.sectionHeader}>
               <Text>PROJECTS</Text>
             </View>
-            <View style={styles.projectSection}>
+            <View style={styles.projectContainer}>
               {data.projects.map((project, index) => (
                 <View key={index} style={styles.projectSection}>
                   <View style={styles.projectMetaData}>
@@ -239,6 +239,11 @@ const styles = StyleSheet.create({
   projectSection: {
     marginLeft: 10,
     gap: 2,
+  },
+  projectContainer: {
+    marginLeft: 10,
+    flexDirection: 'column',
+    gap: 5,
   },
   projectName: {
     fontWeight: 'medium',

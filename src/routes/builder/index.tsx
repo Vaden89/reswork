@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { Button } from '#/components/common/button'
-import { NavBar } from '#/components/common/nav-bar'
 import { TEMPLATES } from '#/data/templates/registry'
 import { TemplateCard } from '#/components/template-card'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
@@ -30,21 +29,20 @@ function RouteComponent() {
 
   return (
     <main className="w-full flex flex-col justify-center items-center">
-      <header className="w-full max-w-6xl">
-        <NavBar />
-      </header>
-      <section className="w-full max-w-6xl px-8 xl:px-0 py-10 min-[1440px]:py-20">
+      <section className="w-full max-w-6xl px-4 sm:px-8 xl:px-0 pt-10 sm:py-10 min-[1440px]:py-20">
         <div className="flex flex-col gap-2">
-          <h2 className="text-6xl font-semibold">Template Gallery</h2>
-          <p className="text-secondary text-lg font-medium">
+          <h2 className="text-4xl sm:text-6xl font-semibold">
+            Template Gallery
+          </h2>
+          <p className="text-secondary sm:text-lg font-medium">
             Select a foundation for your professional narrative. Our minimalist,
-            editorially-structured <br /> layouts ensure your content remains
-            the focal point.
+            editorially-structured <br className="hidden lg:block" /> layouts
+            ensure your content remains the focal point.
           </p>
         </div>
         <div
           ref={templateContainer}
-          className="w-full min-h-[450px] overflow-x-scroll flex-1 flex items-center mt-6 py-6 px-4 noscroll snap-x snap-proximity"
+          className="w-full gap-6 sm:gap-0 sm:min-h-112.5 overflow-x-scroll flex-1 flex items-center mt-6 py-3 sm:py-6 px-4 noscroll snap-x snap-proximity"
         >
           {TEMPLATES.map((template) => (
             <TemplateCard
@@ -57,8 +55,16 @@ function RouteComponent() {
         </div>
         <div className="w-full flex items-center justify-between px-2 mt-4">
           <div className="flex gap-2">
-            <Button onClick={() => handleScroll('left')} className="py-2 px-3" icon={<ArrowLeftIcon size={16} />} />
-            <Button onClick={() => handleScroll('right')} className="py-2 px-3" icon={<ArrowRightIcon size={16} />} />
+            <Button
+              onClick={() => handleScroll('left')}
+              className="py-2 px-3"
+              icon={<ArrowLeftIcon size={16} />}
+            />
+            <Button
+              onClick={() => handleScroll('right')}
+              className="py-2 px-3"
+              icon={<ArrowRightIcon size={16} />}
+            />
           </div>
           <Link to="/builder/preview">
             <Button

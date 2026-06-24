@@ -1,23 +1,27 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, SquarePen } from 'lucide-react'
 import { RESUME_SECTIONS } from '#/data/templates/sections'
 import type { Dispatch, SetStateAction } from 'react'
 
 interface ResumeSectionSidebarProps {
   activeSection: string
   isOpen: boolean
+  isPreviewVisible: boolean
   onToggle: () => void
   setActiveSection: Dispatch<SetStateAction<string>>
+  setIsPreviewVisible: (visible: boolean) => void
 }
 
 export function ResumeSectionSideBar({
   activeSection,
   isOpen,
+  isPreviewVisible,
   onToggle,
   setActiveSection,
+  setIsPreviewVisible,
 }: ResumeSectionSidebarProps) {
   return (
     <div
-      className={`${isOpen ? 'w-48 px-3' : 'w-15 px-2'}  shrink-0 transition-all duration-200 flex flex-col border-r border-border py-8`}
+      className={`${isOpen ? 'w-48 px-3' : 'w-15 px-2'}  shrink-0 transition-all duration-200 hidden sm:flex flex-col border-r border-border py-8`}
     >
       <div
         className={`flex ${isOpen ? 'items-center justify-between' : 'justify-center'}`}
@@ -43,7 +47,10 @@ export function ResumeSectionSideBar({
           return (
             <div
               key={item.id}
-              onClick={() => setActiveSection(item.id)}
+              onClick={() => {
+                setActiveSection(item.id)
+                setIsPreviewVisible(false)
+              }}
               className={`w-full py-3 rounded cursor-pointer text-tertiary flex items-center transition-colors ${
                 isOpen ? 'gap-3 px-4' : 'justify-center px-0'
               } ${isActive ? 'bg-primary text-white font-medium' : 'hover:bg-gray-100'}`}
@@ -54,6 +61,20 @@ export function ResumeSectionSideBar({
           )
         })}
       </div>
+      <button
+        type="button"
+        onClick={() => setIsPreviewVisible(!isPreviewVisible)}
+        className={`mt-auto lg:hidden w-full py-3 rounded cursor-pointer text-tertiary flex items-center transition-colors hover:bg-gray-100 ${
+          isOpen ? 'gap-3 px-4' : 'justify-center px-0'
+        }`}
+      >
+        {isPreviewVisible ? (
+          <SquarePen size={18} className="shrink-0" />
+        ) : (
+          <Eye size={18} className="shrink-0" />
+        )}
+        {isOpen && <span>{isPreviewVisible ? 'Edit' : 'Preview'}</span>}
+      </button>
     </div>
   )
 }

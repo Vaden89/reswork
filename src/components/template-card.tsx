@@ -11,13 +11,13 @@ export function TemplateCard({
 }) {
   return (
     <div
-      className="w-1/3 shrink-0 flex flex-col gap-4 cursor-pointer snap-center"
+      className="w-4/5 lg:w-1/3 shrink-0 flex flex-col gap-4 cursor-pointer snap-center"
       onClick={onSelect}
     >
       <img
         src={template.image}
         alt={template.label}
-        className={`w-4/5 aspect-auto rounded-sm transition-all duration-200 ${
+        className={`sm:w-4/5 aspect-auto rounded-sm transition-all duration-200 ${
           isSelected
             ? 'ring-2 ring-offset-2 ring-black scale-[1.02]'
             : 'ring-1 ring-transparent hover:ring-gray-300'

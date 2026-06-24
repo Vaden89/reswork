@@ -16,7 +16,7 @@ export const EducationForm = ({ resumeData, setField }: FormProps) => {
   const updateEducation = (updated: Education[]) =>
     setField('education', updated)
 
-  const addEducation = () => updateEducation([...education, EMPTY_EDUCATION])
+  const addEducation = () => updateEducation([EMPTY_EDUCATION, ...education])
 
   const removeEducation = (i: number) =>
     updateEducation(education.filter((_, idx) => idx !== i))
