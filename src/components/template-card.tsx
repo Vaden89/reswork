@@ -11,7 +11,7 @@ export function TemplateCard({
 }) {
   return (
     <div
-      className="w-4/5 sm:w-1/3 shrink-0 flex flex-col gap-4 cursor-pointer snap-center"
+      className="w-4/5 lg:w-1/3 shrink-0 flex flex-col gap-4 cursor-pointer snap-center"
       onClick={onSelect}
     >
       <img
