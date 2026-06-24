@@ -1,5 +1,5 @@
-import type { TemplateData } from '#/components/templates/template-1'
 import type { ComponentType } from 'react'
+import type { TemplateData } from '#/types/template.type'
 import { Template1 } from '#/components/templates/template-1'
 
 export interface Template {
