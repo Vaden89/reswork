@@ -3,34 +3,25 @@ import { Button } from '../../common/button'
 import { Plus } from 'lucide-react'
 import type { Education } from '#/types/template.type'
 import type { FormProps } from '#/types/section-forms.type'
-import { EMPTY_EDUCATION } from '#/data/constants/form-defaults'
 import { EducationCard } from './education-card'
 
-export const EducationForm = ({ resumeData, setField }: FormProps) => {
+export const EducationForm = ({ resumeData, dispatch }: FormProps) => {
   const education = resumeData.education
 
   useEffect(() => {
-    if (education.length === 0) setField('education', [EMPTY_EDUCATION])
+    if (education.length === 0) dispatch({ type: 'ADD_EDUCATION' })
   }, [])
 
-  const updateEducation = (updated: Education[]) =>
-    setField('education', updated)
-
-  const addEducation = () => updateEducation([EMPTY_EDUCATION, ...education])
+  const addEducation = () => dispatch({ type: 'ADD_EDUCATION' })
 
   const removeEducation = (i: number) =>
-    updateEducation(education.filter((_, idx) => idx !== i))
+    dispatch({ type: 'REMOVE_EDUCATION', index: i })
 
   const updateEducationField = (
     i: number,
     field: keyof Education,
     value: string,
-  ) =>
-    updateEducation(
-      education.map((edu, idx) =>
-        idx === i ? { ...edu, [field]: value } : edu,
-      ),
-    )
+  ) => dispatch({ type: 'UPDATE_EDUCATION', index: i, field, value })
 
   return (
     <>

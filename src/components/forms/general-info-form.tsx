@@ -2,31 +2,16 @@ import { useEffect } from 'react'
 import { LinkRow } from '../link-row'
 import { Button } from '../common/button'
 import { FormField } from '../common/form'
-import { Plus, Trash2 } from 'lucide-react'
-import type { Link } from '#/types/template.type'
+import { Plus } from 'lucide-react'
 import type { FormProps } from '#/types/section-forms.type'
-import { EMPTY_LINK, MAX_LINKS } from '#/data/constants/form-defaults'
+import { MAX_LINKS } from '#/data/constants/form-defaults'
 
-export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
+export const GeneralInfoForm = ({ resumeData, dispatch }: FormProps) => {
   const links = resumeData.links
 
   useEffect(() => {
-    if (links.length === 0) setField('links', [EMPTY_LINK])
+    if (links.length === 0) dispatch({ type: 'ADD_LINK' })
   }, [])
-
-  const updateLinks = (updated: Link[]) => setField('links', updated)
-
-  const addLink = () => updateLinks([...links, EMPTY_LINK])
-
-  const removeLink = (i: number) =>
-    updateLinks(links.filter((_, idx) => idx !== i))
-
-  const updateLink = (i: number, field: keyof Link, value: string) =>
-    updateLinks(
-      links.map((link, idx) =>
-        idx === i ? { ...link, [field]: value } : link,
-      ),
-    )
 
   return (
     <>
@@ -43,14 +28,26 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
             label="First Name"
             placeholder="John"
             value={resumeData.first_name}
-            onChange={(e) => setField('first_name', e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: 'BASIC_UPDATE',
+                key: 'first_name',
+                value: e.target.value,
+              })
+            }
           />
           <FormField
             name="lastname"
             label="Last Name"
             placeholder="Doe"
             value={resumeData.last_name}
-            onChange={(e) => setField('last_name', e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: 'BASIC_UPDATE',
+                key: 'last_name',
+                value: e.target.value,
+              })
+            }
           />
         </div>
         <FormField
@@ -58,7 +55,13 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
           label="Professional Header"
           placeholder="Software Engineer"
           value={resumeData.profession}
-          onChange={(e) => setField('profession', e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: 'BASIC_UPDATE',
+              key: 'profession',
+              value: e.target.value,
+            })
+          }
         />
       </div>
       <div className="w-full flex flex-col gap-8 mt-5 pb-8 border-b border-border">
@@ -68,14 +71,26 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
             label="Email Address"
             placeholder="johndoe@example.com"
             value={resumeData.email}
-            onChange={(e) => setField('email', e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: 'BASIC_UPDATE',
+                key: 'email',
+                value: e.target.value,
+              })
+            }
           />
           <FormField
             name="phone"
             label="Phone Number"
             placeholder="+234 907 456 5432"
             value={resumeData.phone}
-            onChange={(e) => setField('phone', e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: 'BASIC_UPDATE',
+                key: 'phone',
+                value: e.target.value,
+              })
+            }
           />
         </div>
         <FormField
@@ -83,7 +98,13 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
           label="Location (City, Country)"
           placeholder="Lagos, Nigeria"
           value={resumeData.location}
-          onChange={(e) => setField('location', e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: 'BASIC_UPDATE',
+              key: 'location',
+              value: e.target.value,
+            })
+          }
         />
       </div>
       <div className="w-full flex flex-col gap-4 mt-5">
@@ -95,7 +116,7 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
               variants="ghost"
               icon={<Plus size={20} />}
               iconPosition="left"
-              onClick={addLink}
+              onClick={() => dispatch({ type: 'ADD_LINK' })}
             />
           )}
         </div>
@@ -105,8 +126,10 @@ export const GeneralInfoForm = ({ resumeData, setField }: FormProps) => {
               key={i}
               link={link}
               canRemove={links.length > 1}
-              onRemove={() => removeLink(i)}
-              onUpdate={(field, value) => updateLink(i, field, value)}
+              onRemove={() => dispatch({ type: 'REMOVE_LINK', index: i })}
+              onUpdate={(field, value) =>
+                dispatch({ type: 'UPDATE_LINK', index: i, field, value })
+              }
             />
           ))}
         </div>
