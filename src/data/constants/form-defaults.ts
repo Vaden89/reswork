@@ -34,3 +34,5 @@ export const EMPTY_EXPERIENCE: WorkExperience = {
   responsibilities: [''],
   start_date: '',
 }
+
+export const EMPTY_SKILL = { skill_name: '', sub_skills: [''] }
