@@ -3,58 +3,34 @@ import { Plus } from 'lucide-react'
 import { Button } from '../../common/button'
 import { SkillGroupCard } from './skill-group-card'
 import type { FormProps } from '#/types/section-forms.type'
-import type { Skills } from '#/types/template.type'
 
-export const SkillsForm = ({ resumeData, setField }: FormProps) => {
+export const SkillsForm = ({ resumeData, dispatch }: FormProps) => {
   const skills = resumeData.skills
 
   useEffect(() => {
-    if (skills.length === 0)
-      setField('skills', [{ skill_name: '', sub_skills: [''] }])
+    if (skills.length === 0) dispatch({ type: 'ADD_SKILL' })
   }, [])
 
-  const updateSkills = (updated: Skills[]) => setField('skills', updated)
+  const addSkill = () => dispatch({ type: 'ADD_SKILL' })
 
-  const addSkill = () =>
-    updateSkills([...skills, { skill_name: '', sub_skills: [''] }])
-
-  const removeSkill = (i: number) =>
-    updateSkills(skills.filter((_, idx) => idx !== i))
+  const removeSkill = (i: number) => dispatch({ type: 'REMOVE_SKILL', index: i })
 
   const updateSkillName = (i: number, value: string) =>
-    updateSkills(
-      skills.map((s, idx) => (idx === i ? { ...s, skill_name: value } : s)),
-    )
+    dispatch({ type: 'UPDATE_SKILL_NAME', index: i, value })
 
   const addSubSkill = (i: number) =>
-    updateSkills(
-      skills.map((s, idx) =>
-        idx === i ? { ...s, sub_skills: [...s.sub_skills, ''] } : s,
-      ),
-    )
+    dispatch({ type: 'ADD_SUB_SKILL', index: i })
 
   const removeSubSkill = (i: number, j: number) =>
-    updateSkills(
-      skills.map((s, idx) =>
-        idx === i
-          ? { ...s, sub_skills: s.sub_skills.filter((_, jdx) => jdx !== j) }
-          : s,
-      ),
-    )
+    dispatch({ type: 'REMOVE_SUB_SKILL', skillIndex: i, subSkillIndex: j })
 
   const updateSubSkill = (i: number, j: number, value: string) =>
-    updateSkills(
-      skills.map((s, idx) =>
-        idx === i
-          ? {
-              ...s,
-              sub_skills: s.sub_skills.map((sk, jdx) =>
-                jdx === j ? value : sk,
-              ),
-            }
-          : s,
-      ),
-    )
+    dispatch({
+      type: 'UPDATE_SUB_SKILL',
+      skillIndex: i,
+      subSkillIndex: j,
+      value,
+    })
 
   return (
     <>

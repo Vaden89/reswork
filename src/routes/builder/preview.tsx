@@ -20,7 +20,7 @@ export const Route = createFileRoute('/builder/preview')({
 
 function RouteComponent() {
   const [instance, updatePDF] = usePDF()
-  const { resumeData, setField } = useResumeData()
+  const { resumeData, dispatch } = useResumeData()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState('general')
@@ -52,19 +52,19 @@ function RouteComponent() {
             className={`${isPreviewVisible ? 'hidden lg:flex' : 'flex'} flex-1 min-h-0 flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto lg:h-[80vh] noscroll`}
           >
             {activeSection === 'general' && (
-              <GeneralInfoForm resumeData={resumeData} setField={setField} />
+              <GeneralInfoForm resumeData={resumeData} dispatch={dispatch} />
             )}
             {activeSection === 'skills' && (
-              <SkillsForm resumeData={resumeData} setField={setField} />
+              <SkillsForm resumeData={resumeData} dispatch={dispatch} />
             )}
             {activeSection === 'experience' && (
-              <ExperienceForm resumeData={resumeData} setField={setField} />
+              <ExperienceForm resumeData={resumeData} dispatch={dispatch} />
             )}
             {activeSection === 'education' && (
-              <EducationForm resumeData={resumeData} setField={setField} />
+              <EducationForm resumeData={resumeData} dispatch={dispatch} />
             )}
             {activeSection === 'projects' && (
-              <ProjectsForm resumeData={resumeData} setField={setField} />
+              <ProjectsForm resumeData={resumeData} dispatch={dispatch} />
             )}
           </div>
 

@@ -3,76 +3,43 @@ import { Plus } from 'lucide-react'
 import { Button } from '../../common/button'
 import type { WorkExperience } from '#/types/template.type'
 import type { FormProps } from '#/types/section-forms.type'
-import { EMPTY_EXPERIENCE } from '#/data/constants/form-defaults'
 import { WorkExperienceCard } from './work-experience-card'
 
-export const ExperienceForm = ({ resumeData, setField }: FormProps) => {
+export const ExperienceForm = ({ resumeData, dispatch }: FormProps) => {
   const experiences = resumeData.workExperience
 
   useEffect(() => {
-    if (experiences.length === 0)
-      setField('workExperience', [{ ...EMPTY_EXPERIENCE }])
+    if (experiences.length === 0) dispatch({ type: 'ADD_WORK_EXPERIENCE' })
   }, [])
 
-  const updateExperiences = (updated: WorkExperience[]) =>
-    setField('workExperience', updated)
-
-  const addExperience = () =>
-    updateExperiences([
-      { ...EMPTY_EXPERIENCE, responsibilities: [''] },
-      ...experiences,
-    ])
+  const addExperience = () => dispatch({ type: 'ADD_WORK_EXPERIENCE' })
 
   const removeExperience = (i: number) =>
-    updateExperiences(experiences.filter((_, idx) => idx !== i))
+    dispatch({ type: 'REMOVE_WORK_EXPERIENCE', index: i })
 
   const updateExperienceField = (
     i: number,
     field: keyof WorkExperience,
     value: string,
-  ) =>
-    updateExperiences(
-      experiences.map((exp, idx) =>
-        idx === i ? { ...exp, [field]: value } : exp,
-      ),
-    )
+  ) => dispatch({ type: 'UPDATE_WORK_EXPERIENCE', index: i, field, value })
 
   const addResponsibility = (i: number) =>
-    updateExperiences(
-      experiences.map((exp, idx) =>
-        idx === i
-          ? { ...exp, responsibilities: [...exp.responsibilities, ''] }
-          : exp,
-      ),
-    )
+    dispatch({ type: 'ADD_WORK_RESPONSIBILITY', index: i })
 
   const removeResponsibility = (i: number, j: number) =>
-    updateExperiences(
-      experiences.map((exp, idx) =>
-        idx === i
-          ? {
-              ...exp,
-              responsibilities: exp.responsibilities.filter(
-                (_, jdx) => jdx !== j,
-              ),
-            }
-          : exp,
-      ),
-    )
+    dispatch({
+      type: 'REMOVE_WORK_RESPONSIBILITY',
+      workExpIndex: i,
+      resIndex: j,
+    })
 
   const updateResponsibility = (i: number, j: number, value: string) =>
-    updateExperiences(
-      experiences.map((exp, idx) =>
-        idx === i
-          ? {
-              ...exp,
-              responsibilities: exp.responsibilities.map((rsp, jdx) =>
-                jdx === j ? value : rsp,
-              ),
-            }
-          : exp,
-      ),
-    )
+    dispatch({
+      type: 'UPDATE_WORK_RESPONSIBILITY',
+      workExpIndex: i,
+      resIndex: j,
+      value,
+    })
 
   return (
     <>
