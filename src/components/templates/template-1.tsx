@@ -6,8 +6,26 @@ import {
   Page,
   StyleSheet,
   Text,
+  Font,
   View,
 } from '@react-pdf/renderer'
+
+Font.register({
+  family: 'Playfair Display',
+  fonts: [
+    {
+      src: '/fonts/playfair/PlayfairDisplay-Regular.ttf',
+    },
+    {
+      src: '/fonts/playfair/PlayfairDisplay-SemiBold.ttf',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/playfair/PlayfairDisplay-Italic.ttf',
+      fontStyle: 'italic',
+    },
+  ],
+})
 
 export const Template1 = ({ data }: { data: TemplateData }) => {
   return (
@@ -21,13 +39,13 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
             <Text>{data.location} · </Text>
             <Text> {data.email} ·</Text>
             <Text> {data.phone} ·</Text>
-            {data.links.length > 0 &&
-              data.links.map((link, idx) => (
-                <View>
+            {data.links.length > 0 && (
+              <View style={{ gap: 4, flexDirection: 'row' }}>
+                {data.links.map((link, idx) => (
                   <Link href={link.url}>{link.label}</Link>
-                  {idx !== data.links.length - 1 && ' · '}
-                </View>
-              ))}
+                ))}
+              </View>
+            )}
           </View>
         </View>
 
@@ -160,15 +178,16 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
 const styles = StyleSheet.create({
   page: {
     padding: 40,
+    fontSize: 10,
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    fontSize: 10,
+    fontFamily: 'Playfair Display',
   },
   header: {
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 4,
     fontSize: 30,
+    fontWeight: 'semibold',
   },
   generalInfo: {
     flexDirection: 'row',
