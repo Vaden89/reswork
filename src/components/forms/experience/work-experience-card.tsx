@@ -58,7 +58,7 @@ export function WorkExperienceCard({
           label="Job Title"
           value={exp.position}
           placeholder="Software Engineer"
-          classname="col-span-2"
+          classname="col-span-2 sm:col-span-1"
           onChange={(e) => onUpdate('position', e.target.value)}
         />
         <FormField
