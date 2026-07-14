@@ -1,5 +1,6 @@
+import { motion } from 'motion/react'
+import type { Variants } from 'motion/react'
 import { Link } from '@tanstack/react-router'
-import { motion, type Variants } from 'motion/react'
 import type { mobileMenu } from '#/data/constants/menu'
 
 type Props = {

@@ -3,13 +3,17 @@ import { Button } from '#/components/common/button'
 import { TEMPLATES } from '#/data/templates/registry'
 import { TemplateCard } from '#/components/template-card'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useDataSource } from '#/context/data-source.context'
 
-export const Route = createFileRoute('/builder/')({
+export const Route = createFileRoute('/builder/templates')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const navigate = useNavigate()
+  const { repository } = useDataSource()
+  const [loading, setLoading] = useState(false)
   const templateContainer = useRef<HTMLDivElement>(null)
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
     null,
@@ -27,14 +31,33 @@ function RouteComponent() {
     })
   }
 
+  const handleCreateResume = async () => {
+    if (!selectedTemplateId) return
+    setLoading(true)
+    try {
+      const rand = crypto.randomUUID().slice(0, 8)
+
+      const resume_id = await repository.createResume({
+        template_id: selectedTemplateId,
+        title: `New Resume-${rand}`,
+      })
+
+      navigate({ to: `/builder/${resume_id}` })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <main className="w-full flex flex-col justify-center items-center">
       <section className="w-full max-w-6xl px-4 sm:px-8 xl:px-0 pt-10 sm:py-10 min-[1440px]:py-20">
         <div className="flex flex-col gap-2">
-          <h2 className="text-4xl sm:text-6xl font-semibold">
+          <h2 className="text-4xl 2xl:text-6xl font-semibold">
             Template Gallery
           </h2>
-          <p className="text-secondary sm:text-lg font-medium">
+          <p className="text-secondary 2xl:text-lg">
             Select a foundation for your professional narrative. Our minimalist,
             editorially-structured <br className="hidden lg:block" /> layouts
             ensure your content remains the focal point.
@@ -67,14 +90,15 @@ function RouteComponent() {
               icon={<ArrowRightIcon size={16} />}
             />
           </div>
-          <Link to="/builder/preview">
-            <Button
-              text="CONTINUE"
-              iconPosition="right"
-              className="py-2 px-3"
-              icon={<ArrowRightIcon size={16} />}
-            />
-          </Link>
+
+          <Button
+            iconPosition="right"
+            className="py-2 px-3"
+            onClick={handleCreateResume}
+            icon={<ArrowRightIcon size={16} />}
+            disabled={!selectedTemplateId || loading}
+            text={loading ? 'Loading...' : 'CONTINUE'}
+          />
         </div>
       </section>
     </main>

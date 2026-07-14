@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useResumeData } from '#/hooks/use-resume-data'
-import { createFileRoute } from '@tanstack/react-router'
+import { useResume } from '#/hooks/use-resumes'
+import { useDataSource } from '#/context/data-source.context'
+import { createFileRoute, useParams } from '@tanstack/react-router'
 import { SkillsForm } from '#/components/forms/skills/skills-form'
 import { EducationForm } from '#/components/forms/education/education-form'
 import { ExperienceForm } from '#/components/forms/experience/experience-form'
@@ -13,29 +15,57 @@ import { Template1 } from '#/components/templates/template-1'
 import { useDebounce } from '#/hooks/use-debounce'
 import { ProjectsForm } from '#/components/forms/projects/projects-form'
 import { ResumeSectionTopBar } from '#/components/builder/resume-section-topbar'
+import { FormField } from '#/components/common/form'
 
-export const Route = createFileRoute('/builder/preview')({
+export const Route = createFileRoute('/builder/$id')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { id: resumeId } = useParams({ from: '/builder/$id' })
+  const resume = useResume(resumeId)
+
+  const { repository } = useDataSource()
+  const { updateResumeData, renameResume } = repository
+
   const [instance, updatePDF] = usePDF()
+  const [title, setTitle] = useState('')
+  const debouncedTitle = useDebounce(title, 600)
   const { resumeData, dispatch } = useResumeData()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState('general')
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
 
+  const hydratedId = useRef<string | null>(null)
+  useEffect(() => {
+    if (resume && hydratedId.current !== resumeId) {
+      dispatch({ type: 'SET_RESUME_DATA', data: resume.data })
+      setTitle(resume.title)
+      hydratedId.current = resumeId
+    }
+  }, [resume, resumeId, dispatch])
+
   useEffect(() => {
     updatePDF(<Template1 data={debouncedResumeData} />)
   }, [debouncedResumeData, updatePDF])
 
+  useEffect(() => {
+    if (hydratedId.current !== resumeId) return
+    updateResumeData(resumeId, debouncedResumeData)
+  }, [debouncedResumeData, resumeId, updateResumeData])
+
+  useEffect(() => {
+    if (hydratedId.current !== resumeId) return
+    renameResume(resumeId, debouncedTitle)
+  }, [debouncedTitle, resumeId, renameResume])
+
   return (
     <main className="w-full flex-1 flex flex-col min-h-0">
       <ResumeSectionTopBar
-        isPreviewVisible={isPreviewVisible}
         activeSection={activeSection}
         setActiveSection={setActiveSection}
+        isPreviewVisible={isPreviewVisible}
         setIsPreviewVisible={setIsPreviewVisible}
       />
       <section className="w-full flex-1 flex min-h-0 overflow-hidden">
@@ -51,6 +81,15 @@ function RouteComponent() {
           <div
             className={`${isPreviewVisible ? 'hidden lg:flex' : 'flex'} flex-1 min-h-0 flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto lg:h-[80vh] noscroll`}
           >
+            <FormField
+              classname="mb-5"
+              name="Resume Name"
+              label="Resume Name"
+              value={title}
+              inputClassName="bg-transparent"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+
             {activeSection === 'general' && (
               <GeneralInfoForm resumeData={resumeData} dispatch={dispatch} />
             )}
@@ -84,7 +123,7 @@ function RouteComponent() {
                   if (!instance.url) return
                   const a = document.createElement('a')
                   a.href = instance.url
-                  a.download = 'resume.pdf'
+                  a.download = `${title}.pdf`
                   a.click()
                 }}
               />

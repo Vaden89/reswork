@@ -2,8 +2,23 @@ import type {
   Education,
   Link,
   Project,
+  TemplateData,
   WorkExperience,
 } from '#/types/template.type'
+
+export const EMPTY_TEMPLATE_DATA: TemplateData = {
+  first_name: '',
+  last_name: '',
+  location: '',
+  email: '',
+  phone: '',
+  links: [],
+  profession: '',
+  skills: [],
+  workExperience: [],
+  projects: [],
+  education: [],
+}
 
 export const EMPTY_EDUCATION: Education = {
   course: '',

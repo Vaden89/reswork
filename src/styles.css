@@ -31,11 +31,16 @@ body,
 
 body {
   margin: 0;
+  position: relative;
   background-color: var(--color-neutral);
 }
 
 button {
   cursor: pointer;
+}
+
+.root {
+  isolation: isolate;
 }
 
 .noscroll {
