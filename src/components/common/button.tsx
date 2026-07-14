@@ -12,15 +12,20 @@ export const Button = ({
   iconPosition = 'right',
   variants: variant = 'default',
   className,
+  disabled,
   onClick,
+  ...props
 }: ButtonProps) => {
   const baseStyling =
-    'w-fit text-sm font-medium px-2 py-1 flex items-center justify-center gap-2'
+    'w-fit text-sm font-medium px-2 py-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-70 disabled:pointer-events-none'
 
   return (
     <button
-      onClick={onClick}
+      type="button"
+      disabled={disabled}
       className={cn(baseStyling, variants[variant], className)}
+      onClick={onClick}
+      {...props}
     >
       {iconPosition === 'left' && icon}
       {text}
