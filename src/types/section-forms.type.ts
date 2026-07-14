@@ -72,3 +72,4 @@ export type SectionFormAction =
   | { type: 'REMOVE_LINK'; index: number }
   | { type: 'UPDATE_LINK'; index: number; value: string; field: keyof Link }
   | { type: 'BASIC_UPDATE'; key: keyof TemplateData; value: string }
+  | { type: 'SET_RESUME_DATA'; data: TemplateData }
