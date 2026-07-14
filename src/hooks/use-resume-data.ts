@@ -4,6 +4,7 @@ import {
   EMPTY_LINK,
   EMPTY_PROJECT,
   EMPTY_SKILL,
+  EMPTY_TEMPLATE_DATA,
 } from '#/data/constants/form-defaults'
 import { useReducer } from 'react'
 import type { Dispatch } from 'react'
@@ -12,24 +13,10 @@ import type { SectionFormAction } from '#/types/section-forms.type'
 
 export type ResumeDispatch = Dispatch<SectionFormAction>
 
-const defaultData: TemplateData = {
-  first_name: '',
-  last_name: '',
-  location: '',
-  email: '',
-  phone: '',
-  links: [],
-  profession: '',
-  skills: [],
-  workExperience: [],
-  projects: [],
-  education: [],
-}
-
-export function useResumeData() {
+export function useResumeData(initialData: TemplateData = EMPTY_TEMPLATE_DATA) {
   const [resumeData, dispatch] = useReducer<TemplateData, [SectionFormAction]>(
     resumeDataReducer,
-    defaultData,
+    initialData,
   )
 
   return { resumeData, dispatch }
@@ -246,6 +233,8 @@ const resumeDataReducer = (
         ...state,
         [action.key]: action.value,
       }
+    case 'SET_RESUME_DATA':
+      return action.data
     default:
       return state
   }
