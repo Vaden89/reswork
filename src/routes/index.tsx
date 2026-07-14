@@ -16,7 +16,7 @@ function Home() {
             Precision and simplicity for modern professional. Construct a
             document that reflects your structural value
           </p>
-          <Link to="/builder">
+          <Link to="/builder/templates">
             <Button
               text="START BUILDING"
               icon={<ArrowRight size={16} />}
