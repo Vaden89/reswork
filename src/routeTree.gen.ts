@@ -9,58 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BuilderIndexRouteImport } from './routes/builder/index'
-import { Route as BuilderPreviewRouteImport } from './routes/builder/preview'
+import { Route as BuilderTemplatesRouteImport } from './routes/builder/templates'
+import { Route as BuilderIdRouteImport } from './routes/builder/$id'
 
+const ResumesRoute = ResumesRouteImport.update({
+  id: '/resumes',
+  path: '/resumes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BuilderIndexRoute = BuilderIndexRouteImport.update({
-  id: '/builder/',
-  path: '/builder/',
+const BuilderTemplatesRoute = BuilderTemplatesRouteImport.update({
+  id: '/builder/templates',
+  path: '/builder/templates',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BuilderPreviewRoute = BuilderPreviewRouteImport.update({
-  id: '/builder/preview',
-  path: '/builder/preview',
+const BuilderIdRoute = BuilderIdRouteImport.update({
+  id: '/builder/$id',
+  path: '/builder/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/builder/preview': typeof BuilderPreviewRoute
-  '/builder/': typeof BuilderIndexRoute
+  '/resumes': typeof ResumesRoute
+  '/builder/$id': typeof BuilderIdRoute
+  '/builder/templates': typeof BuilderTemplatesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/builder/preview': typeof BuilderPreviewRoute
-  '/builder': typeof BuilderIndexRoute
+  '/resumes': typeof ResumesRoute
+  '/builder/$id': typeof BuilderIdRoute
+  '/builder/templates': typeof BuilderTemplatesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/builder/preview': typeof BuilderPreviewRoute
-  '/builder/': typeof BuilderIndexRoute
+  '/resumes': typeof ResumesRoute
+  '/builder/$id': typeof BuilderIdRoute
+  '/builder/templates': typeof BuilderTemplatesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/builder/preview' | '/builder/'
+  fullPaths: '/' | '/resumes' | '/builder/$id' | '/builder/templates'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/builder/preview' | '/builder'
-  id: '__root__' | '/' | '/builder/preview' | '/builder/'
+  to: '/' | '/resumes' | '/builder/$id' | '/builder/templates'
+  id: '__root__' | '/' | '/resumes' | '/builder/$id' | '/builder/templates'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BuilderPreviewRoute: typeof BuilderPreviewRoute
-  BuilderIndexRoute: typeof BuilderIndexRoute
+  ResumesRoute: typeof ResumesRoute
+  BuilderIdRoute: typeof BuilderIdRoute
+  BuilderTemplatesRoute: typeof BuilderTemplatesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/resumes': {
+      id: '/resumes'
+      path: '/resumes'
+      fullPath: '/resumes'
+      preLoaderRoute: typeof ResumesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -68,18 +85,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/builder/': {
-      id: '/builder/'
-      path: '/builder'
-      fullPath: '/builder/'
-      preLoaderRoute: typeof BuilderIndexRouteImport
+    '/builder/templates': {
+      id: '/builder/templates'
+      path: '/builder/templates'
+      fullPath: '/builder/templates'
+      preLoaderRoute: typeof BuilderTemplatesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/builder/preview': {
-      id: '/builder/preview'
-      path: '/builder/preview'
-      fullPath: '/builder/preview'
-      preLoaderRoute: typeof BuilderPreviewRouteImport
+    '/builder/$id': {
+      id: '/builder/$id'
+      path: '/builder/$id'
+      fullPath: '/builder/$id'
+      preLoaderRoute: typeof BuilderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -87,8 +104,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BuilderPreviewRoute: BuilderPreviewRoute,
-  BuilderIndexRoute: BuilderIndexRoute,
+  ResumesRoute: ResumesRoute,
+  BuilderIdRoute: BuilderIdRoute,
+  BuilderTemplatesRoute: BuilderTemplatesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
