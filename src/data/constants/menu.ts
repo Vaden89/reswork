@@ -5,11 +5,11 @@ export const mobileMenu = [
   },
   {
     label: 'Templates',
-    path: '/builder',
+    path: '/builder/templates',
   },
   {
     label: 'My Resumes',
-    path: '/my-resumes',
+    path: '/resumes',
   },
   {
     label: 'Pricing',
@@ -20,11 +20,11 @@ export const mobileMenu = [
 export const desktopMenu = [
   {
     label: 'Templates',
-    path: '/builder',
+    path: '/builder/templates',
   },
   {
     label: 'My Resumes',
-    path: '/',
+    path: '/resumes',
   },
   {
     label: 'Pricing',
