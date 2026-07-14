@@ -5,7 +5,9 @@ import { MobileMenu } from '../nav/mobile-menu'
 
 export const NavBar = () => {
   const { pathname } = useLocation()
-  const fullWidth = pathname.startsWith('/builder/preview')
+  const fullWidth =
+    pathname.startsWith('/builder/') &&
+    !pathname.startsWith('/builder/templates')
 
   return (
     <nav className="w-full flex justify-center">
