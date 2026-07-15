@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useResumeData } from '#/hooks/use-resume-data'
 import { useResume } from '#/hooks/use-resumes'
 import { useDataSource } from '#/context/data-source.context'
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { SkillsForm } from '#/components/forms/skills/skills-form'
 import { EducationForm } from '#/components/forms/education/education-form'
 import { ExperienceForm } from '#/components/forms/experience/experience-form'
 import { GeneralInfoForm } from '#/components/forms/general-info-form'
 import { ResumeSectionSideBar } from '#/components/builder/resume-section-sidebar'
 import { Button } from '#/components/common/button'
-import { Download } from 'lucide-react'
+import { Download, FileText, LayoutGrid } from 'lucide-react'
 import { usePDF } from '@react-pdf/renderer'
 import { Template1 } from '#/components/templates/template-1'
 import { useDebounce } from '#/hooks/use-debounce'
@@ -59,6 +59,25 @@ function RouteComponent() {
     if (hydratedId.current !== resumeId) return
     renameResume(resumeId, debouncedTitle)
   }, [debouncedTitle, resumeId, renameResume])
+
+  if (!resume)
+    return (
+      <div className="flex-1 flex flex-col gap-3 items-center justify-center">
+        <FileText size={64} />
+        <span className="text-2xl font-semibold">Resume Not Found</span>
+        <p className="text-sm text-secondary text-center">
+          The document you're trying to access does not exist cause the id
+          provided is invalid, or has been deleted.
+        </p>
+        <Link to="/builder/templates">
+          <Button
+            text="Browse Templates"
+            icon={<LayoutGrid size={16} />}
+            className="py-2"
+          />
+        </Link>
+      </div>
+    )
 
   return (
     <main className="w-full flex-1 flex flex-col min-h-0">
