@@ -16,6 +16,7 @@ import { useDebounce } from '#/hooks/use-debounce'
 import { ProjectsForm } from '#/components/forms/projects/projects-form'
 import { ResumeSectionTopBar } from '#/components/builder/resume-section-topbar'
 import { FormField } from '#/components/common/form'
+import { TEMPLATES } from '#/data/templates/registry'
 
 export const Route = createFileRoute('/builder/$id')({
   component: RouteComponent,
@@ -47,7 +48,9 @@ function RouteComponent() {
   }, [resume, resumeId, dispatch])
 
   useEffect(() => {
-    updatePDF(<Template1 data={debouncedResumeData} />)
+    const template = TEMPLATES.find((t) => t.id === resume?.template_id)
+    const SelectedTemplate = template?.component ?? Template1
+    updatePDF(<SelectedTemplate data={debouncedResumeData} />)
   }, [debouncedResumeData, updatePDF])
 
   useEffect(() => {

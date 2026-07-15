@@ -18,7 +18,6 @@ export function useResumeData(initialData: TemplateData = EMPTY_TEMPLATE_DATA) {
     resumeDataReducer,
     initialData,
   )
-
   return { resumeData, dispatch }
 }
 
@@ -160,7 +159,7 @@ const resumeDataReducer = (
     case 'ADD_SKILL':
       return {
         ...state,
-        skills: [...state.skills, { ...EMPTY_SKILL, sub_skills: [''] }],
+        skills: [{ ...EMPTY_SKILL, sub_skills: [''] }, ...state.skills],
       }
     case 'REMOVE_SKILL':
       return {
