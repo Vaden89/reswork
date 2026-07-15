@@ -16,7 +16,7 @@ function RootComponent() {
       <DataSourceProvider>
         <main className="root w-full min-h-dvh flex flex-col">
           <NavBar />
-          <div className="w-full flex-1 flex flex-col min-h-0">
+          <div className="w-full flex-1 flex flex-col min-h-0 short:min-h-auto">
             <Outlet />
           </div>
           <Footer />

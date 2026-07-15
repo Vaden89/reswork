@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+/* Applies on short viewports (< 900px tall) where the fixed-height builder
+   shell feels cramped and we want the page to scroll instead. */
+@custom-variant short (@media (max-height: 899px));
+
 * {
   box-sizing: border-box;
 }
