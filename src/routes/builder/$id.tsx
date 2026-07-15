@@ -101,7 +101,7 @@ function RouteComponent() {
         />
         <div className="flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-2 overflow-hidden">
           <div
-            className={`${isPreviewVisible ? 'hidden lg:flex' : 'flex'} flex-1 min-h-0 flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto lg:h-[80vh] noscroll`}
+            className={`${isPreviewVisible ? 'hidden lg:flex' : 'flex'} flex-1 min-h-0 flex-col py-4 px-4 min-[1440px]:px-8 overflow-y-auto short:max-h-dvh short:h-full lg:h-[80vh] noscroll`}
           >
             <FormField
               classname="mb-5"
