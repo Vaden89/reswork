@@ -35,7 +35,7 @@ function RouteComponent() {
   const debouncedTitle = useDebounce(title, 600)
   const { resumeData, dispatch } = useResumeData()
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const previewResumeData = useDebounce(resumeData, 250)
+  const previewResumeData = useDebounce(resumeData, 300)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState('general')
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
@@ -52,8 +52,8 @@ function RouteComponent() {
   useEffect(() => {
     const template = TEMPLATES.find((t) => t.id === resume?.template_id)
     const SelectedTemplate = template?.component ?? Template1
-    updatePDF(<SelectedTemplate data={debouncedResumeData} />)
-  }, [previewResumeData, updatePDF])
+    updatePDF(<SelectedTemplate data={previewResumeData} />)
+  }, [previewResumeData, resume?.template_id, updatePDF])
 
   useEffect(() => {
     if (hydratedId.current !== resumeId) return
