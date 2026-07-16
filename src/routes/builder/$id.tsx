@@ -17,6 +17,7 @@ import { ProjectsForm } from '#/components/forms/projects/projects-form'
 import { ResumeSectionTopBar } from '#/components/builder/resume-section-topbar'
 import { FormField } from '#/components/common/form'
 import { TEMPLATES } from '#/data/templates/registry'
+import { PdfPreview } from '#/components/common/pdf-preview'
 
 export const Route = createFileRoute('/builder/$id')({
   component: RouteComponent,
@@ -34,6 +35,7 @@ function RouteComponent() {
   const debouncedTitle = useDebounce(title, 600)
   const { resumeData, dispatch } = useResumeData()
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const previewResumeData = useDebounce(resumeData, 300)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState('general')
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
@@ -50,8 +52,8 @@ function RouteComponent() {
   useEffect(() => {
     const template = TEMPLATES.find((t) => t.id === resume?.template_id)
     const SelectedTemplate = template?.component ?? Template1
-    updatePDF(<SelectedTemplate data={debouncedResumeData} />)
-  }, [debouncedResumeData, updatePDF])
+    updatePDF(<SelectedTemplate data={previewResumeData} />)
+  }, [previewResumeData, resume?.template_id, updatePDF])
 
   useEffect(() => {
     if (hydratedId.current !== resumeId) return
@@ -152,17 +154,13 @@ function RouteComponent() {
             </div>
             <div className="flex-1 min-h-0 border-l border-border relative">
               {instance.loading && (
-                <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10 pointer-events-none">
-                  <span className="text-sm text-secondary">
+                <div className="absolute top-2 right-2 z-10 pointer-events-none">
+                  <span className="text-xs text-secondary bg-white/80 border border-border px-2 py-1">
                     Updating preview…
                   </span>
                 </div>
               )}
-              <iframe
-                title="PDF Preview"
-                src={instance.url ? `${instance.url}#toolbar=1` : undefined}
-                className="absolute inset-0 w-full h-full"
-              />
+              <PdfPreview url={instance.url} className="absolute inset-0" />
             </div>
           </div>
         </div>
