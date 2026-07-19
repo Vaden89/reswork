@@ -12,9 +12,9 @@ export const CorePrinciplesSection = () => {
         </span>
       </div>
       <div className="w-full flex flex-col sm:grid sm:grid-cols-6 gap-5">
-        <div className="bg-white sm:col-span-4 sm:p-8 p-6 border border-border shrink-0 transition-colors duration-300 hover:border-primary">
+        <div className="bg-white sm:col-span-4 sm:p-8 p-6 border border-border shrink-0 transition-colors duration-300 hover:border-accent">
           <div className="p-3 border border-border bg-neutral w-fit">
-            <LayoutDashboard size={20} />
+            <LayoutDashboard size={20} color="#6c63ff" />
           </div>
           <div className="flex flex-col gap-2 mt-5 sm:mt-10">
             <span className="text-xl font-medium">Clean Templates</span>
@@ -24,9 +24,9 @@ export const CorePrinciplesSection = () => {
             </p>
           </div>
         </div>
-        <div className="bg-white sm:col-span-2 sm:p-8 p-6 border border-border transition-colors duration-300 hover:border-primary">
+        <div className="bg-white sm:col-span-2 sm:p-8 p-6 border border-border transition-colors duration-300 hover:border-accent">
           <div className="p-3 border border-border bg-neutral w-fit">
-            <Pencil size={20} />
+            <Pencil size={20} color="#6c63ff" />
           </div>
           <div className="flex flex-col gap-2 mt-10">
             <span className="text-xl font-medium">Intuitive Editor</span>
@@ -36,9 +36,9 @@ export const CorePrinciplesSection = () => {
             </p>
           </div>
         </div>
-        <div className="bg-white sm:p-8 p-6 border border-border sm:col-span-6 sm:flex items-center gap-4 transition-colors duration-300 hover:border-primary">
+        <div className="bg-white sm:p-8 p-6 border border-border sm:col-span-6 sm:flex items-center gap-4 transition-colors duration-300 hover:border-accent">
           <div className="p-3 border border-border bg-neutral w-fit">
-            <FileText size={20} />
+            <FileText size={20} color="#6c63ff" />
           </div>
           <div className="flex flex-col mt-5 sm:mt-0 gap-2 sm:gap-0">
             <span className="text-xl font-medium">Lossless PDF Export</span>

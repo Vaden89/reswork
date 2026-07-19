@@ -35,7 +35,7 @@ export const BenefitsSection = () => {
       </div>
       <div className="w-full bg-primary text-white p-6 sm:p-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
         <div className="flex flex-col gap-2">
-          <span className="text-xs tracking-[0.25em] text-white/60">
+          <span className="text-xs tracking-[0.25em] text-accent">
             FREE TO START
           </span>
           <span className="text-3xl sm:text-4xl font-semibold tracking-tight">
@@ -54,7 +54,7 @@ export const BenefitsSection = () => {
             Already have an account?{' '}
             <Link
               to="/login"
-              className="text-white underline underline-offset-2"
+              className="text-accent underline underline-offset-2"
             >
               Log in
             </Link>
