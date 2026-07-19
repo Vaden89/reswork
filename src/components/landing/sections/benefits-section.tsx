@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 export const BenefitsSection = () => {
   return (
-    <section className="max-w-6xl px-4 sm:px-8 xl:px-0 w-full flex mb-12 py-12 gap-5 sm:gap-10 border-t border-t-border flex-col">
+    <section className="max-w-6xl px-4 sm:px-8 xl:px-0 w-full flex py-6 gap-5 sm:gap-10 border-t border-t-border flex-col">
       <div className="w-full flex items-end justify-between">
         <span className="text-xl sm:font-normal font-medium">WHY SIGN UP</span>
         <span className="hidden sm:block text-xs tracking-[0.2em] text-secondary">
@@ -20,7 +20,7 @@ export const BenefitsSection = () => {
           >
             <div className="w-full flex items-start justify-between">
               <div className="p-3 border border-border bg-neutral w-fit">
-                <benefit.icon size={20} />
+                <benefit.icon size={20} color="#6c63ff" />
               </div>
               <span className="text-xs tracking-[0.2em] text-secondary">
                 {benefit.index}
