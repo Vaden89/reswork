@@ -38,7 +38,7 @@ function RouteComponent() {
   const previewResumeData = useDebounce(resumeData, 300)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState('general')
-  const [isPreviewVisible, setIsPreviewVisible] = useState(true)
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false)
 
   const hydratedId = useRef<string | null>(null)
   useEffect(() => {
