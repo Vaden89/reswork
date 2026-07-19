@@ -52,7 +52,7 @@ export const MobileMenu = () => {
             <div className="w-full flex items-center justify-between">
               <Link to="/">
                 <h1 className="text-3xl font-semibold sm:font-medium">
-                  Reswork
+                  Res<span className="text-accent">work</span>
                 </h1>
               </Link>
               <button onClick={() => setIsMenuOpen(false)}>
@@ -97,7 +97,7 @@ export const MobileMenu = () => {
 function GuestFooter({ onClick }: { onClick: () => void }) {
   return (
     <div className="flex flex-col gap-4 pt-5 pb-2 border-t border-border">
-      <span className="text-xs tracking-[0.2em] text-secondary">
+      <span className="text-xs tracking-[0.2em] text-accent">
         SYNC YOUR RESUMES · 10 FREE AI TOKENS
       </span>
       <div className="flex items-center gap-3">
