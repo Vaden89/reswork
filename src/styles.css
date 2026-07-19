@@ -10,6 +10,7 @@
   --primary-color: #111111;
   --secondary-color: #666666;
   --tertiary-color: #121110;
+  --accent-color: #6c63ff;
   --neutral-color: #f9f9f9;
   --border-color: #e5e5e5;
   --dark-gray-color: #e2e2e2;
@@ -19,6 +20,7 @@
   --color-primary: var(--primary-color);
   --color-secondary: var(--secondary-color);
   --color-tertiary: var(--tertiary-color);
+  --color-accent: var(--accent-color);
   --color-neutral: var(--neutral-color);
   --color-border: var(--border-color);
   --color-dark-gray: var(--dark-gray-color);

@@ -18,6 +18,14 @@ const fadeUp: Variants = {
   },
 }
 
+const highlightReveal: Variants = {
+  initial: { width: '0%' },
+  animate: {
+    width: '100%',
+    transition: { duration: 1.2, delay: 0.45, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
 export const HeroSection = () => {
   const { user } = useAuth()
   const isAuthenticated = user?.type === 'authenticated'
@@ -34,11 +42,23 @@ export const HeroSection = () => {
           variants={fadeUp}
           className="text-5xl sm:text-6xl font-bold tracking-tight leading-[0.95]"
         >
-          Build your professional future.
+          Build your professional{' '}
+          <span className="relative inline-block px-1 text-primary">
+            future.
+            <motion.span
+              variants={highlightReveal}
+              className="absolute inset-y-0 left-0 overflow-hidden bg-accent text-white"
+              aria-hidden="true"
+            >
+              <span className="block w-max whitespace-nowrap px-1">
+                future.
+              </span>
+            </motion.span>
+          </span>
         </motion.h1>
         <motion.p
           variants={fadeUp}
-          className="text-secondary text-xl sm:text-2xl font-semibold"
+          className="text-secondary text-xl sm:text-2xl font-semibold "
         >
           Precision and simplicity for modern professional. Construct a document
           that reflects your structural value
@@ -73,7 +93,7 @@ export const HeroSection = () => {
           )}
         </motion.div>
         {!isAuthenticated && (
-          <motion.span variants={fadeUp} className="text-sm text-secondary">
+          <motion.span variants={fadeUp} className="text-sm text-accent">
             No account needed to try — sign up to sync your work and get 10 free
             AI tokens.
           </motion.span>

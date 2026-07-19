@@ -17,7 +17,9 @@ export const NavBar = () => {
         className={`w-full flex items-center justify-between py-4 px-3  border-b border-b-border  ${fullWidth ? 'sm:px-8' : 'max-w-6xl xl:px-0'}`}
       >
         <Link to="/">
-          <h1 className="text-3xl font-semibold sm:font-medium">Reswork</h1>
+          <h1 className="text-3xl font-semibold sm:font-medium">
+            Res<span className="text-accent">work</span>
+          </h1>
         </Link>
         <DesktopMenu />
         <div className="flex items-center gap-2 relative">
