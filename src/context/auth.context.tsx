@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
+import { authClient } from '#/lib/auth-client'
 import type { ReactNode } from 'react'
 import type { User } from '#/types/user.type'
 
@@ -16,19 +17,27 @@ function resolveGuestUser(): User {
 
 type AuthContextValue = {
   user: User | null
+  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const { data: session, isPending } = authClient.useSession()
+  const [guestUser, setGuestUser] = useState<User | null>(null)
 
   useEffect(() => {
-    setUser(resolveGuestUser())
+    setGuestUser(resolveGuestUser())
   }, [])
 
+  const user = session?.user
+    ? { id: session.user.id, type: 'authenticated' as const }
+    : guestUser
+
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user: user, isLoading: isPending }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 
