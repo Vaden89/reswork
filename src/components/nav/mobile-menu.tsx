@@ -1,13 +1,19 @@
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { mobileMenu } from '#/data/constants/menu'
 import { MobileNavLink } from './mobile-nav-link'
 import { AnimatePresence, motion } from 'motion/react'
+import { Button } from '../common/button'
+import { useAuth } from '#/context/auth.context'
+import { authClient } from '#/lib/auth-client'
 
 export const MobileMenu = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user } = useAuth()
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isAuthenticated = user?.type === 'authenticated'
 
   const listVariant = {
     animate: {
@@ -22,6 +28,12 @@ export const MobileMenu = () => {
         staggerDirection: -1,
       },
     },
+  }
+
+  const handleLogout = async () => {
+    await authClient.signOut()
+    navigate({ to: '/' })
+    setIsMenuOpen(false)
   }
 
   return (
@@ -63,10 +75,43 @@ export const MobileMenu = () => {
                 />
               ))}
             </motion.div>
-            <div className="h-10 border-t border-border" />
+
+            {isAuthenticated ? (
+              <div className="border-t pt-5 border-border">
+                <Button
+                  text="LOG OUT"
+                  onClick={handleLogout}
+                  className="py-3 w-full text-red-500 bg-transparent border border-red-500"
+                />
+              </div>
+            ) : (
+              <GuestFooter onClick={() => setIsMenuOpen(false)} />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
     </>
+  )
+}
+
+function GuestFooter({ onClick }: { onClick: () => void }) {
+  return (
+    <div className="flex flex-col gap-4 pt-5 pb-2 border-t border-border">
+      <span className="text-xs tracking-[0.2em] text-secondary">
+        SYNC YOUR RESUMES · 10 FREE AI TOKENS
+      </span>
+      <div className="flex items-center gap-3">
+        <Link to="/sign-up" className="flex-1" onClick={onClick}>
+          <Button text="CREATE FREE ACCOUNT" className="w-full py-3" />
+        </Link>
+        <Link to="/login" className="flex-1" onClick={onClick}>
+          <Button
+            text="LOG IN"
+            variants="ghost"
+            className="w-full py-3 border border-primary text-primary"
+          />
+        </Link>
+      </div>
+    </div>
   )
 }

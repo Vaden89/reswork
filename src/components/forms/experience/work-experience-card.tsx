@@ -82,6 +82,7 @@ export function WorkExperienceCard({
           {exp.responsibilities.map((rsp, j) => (
             <ResponsibilityInput
               key={j}
+              exp={exp}
               value={rsp}
               onChange={(value) => onUpdateResponsibility(j, value)}
               onRemove={() => onRemoveResponsibility(j)}

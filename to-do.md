@@ -17,7 +17,10 @@ A list of things I still need to do or features I want to add
 [x] Fix the animation on sidebar open it's the "resume section" currently jerks into position
 
 ## In Progress
+[] Add a favicon
+[] Add toast notification, build out a toast context
+[] Updte the text on the sign-up page ( I don't currently like it )
+[] Update the auth context to not force pass guest
 [] Add Aria-labels to buttons for accessibility
-[] Consider moving the resume data into a context.
 [] Make sections arrangeable, some people might not like the exact flow of the templates
 [] Add loading state for when the resume data is being fetched ( after I've added online support )

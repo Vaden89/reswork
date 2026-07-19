@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-/* Applies on short viewports (< 900px tall) where the fixed-height builder
-   shell feels cramped and we want the page to scroll instead. */
 @custom-variant short (@media (max-height: 899px));
 
 * {
@@ -54,6 +52,27 @@ button {
 
 .noscroll::-webkit-scrollbar {
   display: none;
+}
+
+.ai-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--border-color) 0%,
+    #f4f4f4 45%,
+    var(--border-color) 90%
+  );
+  background-size: 200% 100%;
+  animation: ai-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes ai-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .nav-link {
