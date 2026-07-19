@@ -1,9 +1,11 @@
-import type { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler, ReactNode } from 'react'
 
 export interface FormFieldProps {
   name: string
   label?: string
+  type?: string
   value?: string
+  extra?: ReactNode
   classname?: string
   placeholder?: string
   inputClassName?: string
