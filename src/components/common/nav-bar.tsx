@@ -2,6 +2,8 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { ProfileCard } from '../user/profile-card'
 import { desktopMenu } from '#/data/constants/menu'
 import { MobileMenu } from '../nav/mobile-menu'
+import { Button } from './button'
+import { useAuth } from '#/context/auth.context'
 
 export const NavBar = () => {
   const { pathname } = useLocation()
@@ -19,11 +21,30 @@ export const NavBar = () => {
         </Link>
         <DesktopMenu />
         <div className="flex items-center gap-2 relative">
-          <ProfileCard />
+          <AuthActions />
           <MobileMenu />
         </div>
       </div>
     </nav>
+  )
+}
+
+function AuthActions() {
+  const { user, isLoading } = useAuth()
+
+  if (isLoading) return null
+
+  if (user?.type === 'authenticated') return <ProfileCard />
+
+  return (
+    <div className="hidden sm:flex items-center gap-4">
+      <Link to="/login">
+        <button className="nav-link text-sm text-secondary">Log in</button>
+      </Link>
+      <Link to="/sign-up">
+        <Button text="SIGN UP" className="py-1.5 px-4" />
+      </Link>
+    </div>
   )
 }
 
