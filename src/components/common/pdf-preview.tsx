@@ -1,5 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { Document, Page, pdfjs } from 'react-pdf'
 import { cn } from '#/utils/cn'
+import 'react-pdf/dist/Page/AnnotationLayer.css'
+import 'react-pdf/dist/Page/TextLayer.css'
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
 interface PdfPreviewProps {
   url: string | null
@@ -7,16 +12,35 @@ interface PdfPreviewProps {
   className?: string
 }
 
-export function PdfPreview({
-  url,
-  title = 'PDF Preview',
-  className,
-}: PdfPreviewProps) {
+export function PdfPreview({ url, className }: PdfPreviewProps) {
+  const [active, setActive] = useState(0)
+  const [containerWidth, setContainerWidth] = useState(0)
+  const [slotPages, setSlotPages] = useState<[number, number]>([0, 0])
   const [slots, setSlots] = useState<[string | null, string | null]>([
     null,
     null,
   ])
-  const [active, setActive] = useState(0)
+
+  const urlRef = useRef(url)
+  useEffect(() => {
+    urlRef.current = url
+  }, [url])
+
+  const onContainerRef = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return
+    const ro = new ResizeObserver(([entry]) => {
+      const width =
+        entry.contentRect.width <= 500
+          ? entry.contentRect.width * 2.2
+          : entry.contentRect.width
+      setContainerWidth(width)
+    })
+    ro.observe(node)
+
+    const width =
+      node.clientWidth <= 500 ? node.clientWidth * 2.2 : node.clientWidth
+    setContainerWidth(width)
+  }, [])
 
   useEffect(() => {
     if (!url) return
@@ -28,24 +52,57 @@ export function PdfPreview({
     })
   }, [url, active])
 
-  const handleLoad = (index: number) => {
-    if (index !== active && slots[index] === url) setActive(index)
-  }
-
   return (
-    <div className={cn('relative', className)}>
-      {slots.map((slotUrl, index) => (
-        <iframe
-          key={index}
-          title={`${title} ${index + 1}`}
-          src={slotUrl ? `${slotUrl}#toolbar=1` : undefined}
-          onLoad={() => handleLoad(index)}
-          className={cn(
-            'absolute inset-0 w-full h-full',
-            index === active ? 'opacity-100' : 'opacity-0 pointer-events-none',
-          )}
-        />
-      ))}
+    <div
+      ref={onContainerRef}
+      className={cn('relative overflow-hidden', className)}
+    >
+      {([0, 1] as const).map((index) => {
+        const slotUrl = slots[index]
+        if (!slotUrl) return null
+        return (
+          <div
+            key={index}
+            className={cn(
+              'absolute inset-0 overflow-y-auto',
+              index === active
+                ? 'opacity-100 z-10'
+                : 'opacity-0 pointer-events-none z-0',
+            )}
+          >
+            <Document
+              file={slotUrl}
+              onLoadSuccess={({ numPages }) =>
+                setSlotPages((prev) => {
+                  const next: [number, number] = [prev[0], prev[1]]
+                  next[index] = numPages
+                  return next
+                })
+              }
+              loading={null}
+              error={null}
+              className="flex flex-col gap-4"
+            >
+              {Array.from({ length: slotPages[index] }, (_, i) => (
+                <Page
+                  key={i + 1}
+                  pageNumber={i + 1}
+                  width={containerWidth || undefined}
+                  renderTextLayer
+                  renderAnnotationLayer
+                  onRenderSuccess={
+                    i === 0
+                      ? () => {
+                          if (slotUrl === urlRef.current) setActive(index)
+                        }
+                      : undefined
+                  }
+                />
+              ))}
+            </Document>
+          </div>
+        )
+      })}
     </div>
   )
 }
