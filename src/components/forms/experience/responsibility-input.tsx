@@ -5,6 +5,7 @@ import * as AiService from '#/services/ai.service'
 import type { WorkExperience } from '#/types/template.type'
 import { RefineResponsibilitySkeleton } from './refine-responsibility-skeleton'
 import { useAuth } from '#/context/auth.context'
+import { useToast } from '#/context/toast.context'
 
 export interface ResponsibilityInputProps {
   exp: WorkExperience
@@ -21,18 +22,17 @@ export function ResponsibilityInput({
 }: ResponsibilityInputProps) {
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { error, success } = useToast()
   const isAuthenticated = user?.type === 'authenticated'
 
   async function handleReqRefinement(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation()
     setLoading(true)
-    setError(null)
 
     if (!isAuthenticated) return
 
     if (!value) {
-      setError('You have to provide a responsibility to refine')
+      error('You have to provide a responsibility to refine', 'Error')
       return
     }
 
@@ -44,10 +44,10 @@ export function ResponsibilityInput({
       })
 
       if (!('data' in response)) throw new Error(response.message)
-
+      success('Responsibility refined successfully')
       onChange(response.data)
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
+      error(err instanceof Error ? err.message : String(err), 'Error')
     } finally {
       setLoading(false)
     }
@@ -70,7 +70,7 @@ export function ResponsibilityInput({
             <button
               type="button"
               onClick={handleReqRefinement}
-              disabled={user?.type !== 'authenticated' || !value}
+              // disabled={user?.type !== 'authenticated' || !value}
               className="group relative flex items-center justify-center disabled:text-secondary"
               aria-label="Refine with AI"
             >
@@ -88,7 +88,6 @@ export function ResponsibilityInput({
           <Trash2 size={18} />
         </button>
       </div>
-      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   )
 }
