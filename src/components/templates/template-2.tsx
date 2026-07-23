@@ -78,7 +78,7 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
                   <View style={styles.responsibilitiesSection}>
                     {experience.responsibilities.map(
                       (responsibility, respIndex) => (
-                        <View key={respIndex} style={styles.bulletItem}>
+                        <View key={respIndex} style={styles.bulletItem} wrap={false}>
                           <Text style={styles.bullet}>•</Text>
                           <Text style={styles.bulletText}>
                             {responsibility}
