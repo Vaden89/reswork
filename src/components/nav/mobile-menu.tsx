@@ -102,7 +102,7 @@ function GuestFooter({ onClick }: { onClick: () => void }) {
       </span>
       <div className="flex items-center gap-3">
         <Link to="/sign-up" className="flex-1" onClick={onClick}>
-          <Button text="CREATE FREE ACCOUNT" className="w-full py-3" />
+          <Button text="CREATE ACCOUNT" className="w-full py-3" />
         </Link>
         <Link to="/login" className="flex-1" onClick={onClick}>
           <Button
