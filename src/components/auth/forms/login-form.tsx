@@ -1,5 +1,6 @@
 import { Button } from '#/components/common/button'
 import { FormField } from '#/components/common/form'
+import { useToast } from '#/context/toast.context'
 import { authClient } from '#/lib/auth-client'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -7,19 +8,18 @@ import type { FormEvent } from 'react'
 
 export function LoginForm() {
   const navigate = useNavigate()
-  const [error, setError] = useState<string | null>(null)
+  // const [error, setError] = useState<string | null>(null)
+  const { error } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setError(null)
-
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get('email') ?? '').trim()
     const password = String(formData.get('password') ?? '')
 
     if (!email || !password) {
-      setError('Enter your email and password to continue.')
+      error('Enter your email and password to continue.')
       return
     }
 
@@ -32,15 +32,13 @@ export function LoginForm() {
       })
 
       if (signInError) {
-        setError(
-          signInError.message ?? 'Unable to log in with those credentials.',
-        )
+        error(signInError.message ?? 'Unable to log in with those credentials.')
         return
       }
 
       await navigate({ to: '/resumes' })
     } catch (caughtError) {
-      setError(
+      error(
         caughtError instanceof Error
           ? caughtError.message
           : 'Something went wrong.',
@@ -67,12 +65,6 @@ export function LoginForm() {
         type="password"
         placeholder="Enter your password"
       />
-
-      {error && (
-        <p className="w-full bg-red-50 py-2 border border-red-400 rounded-md text-sm text-red-500">
-          {error}
-        </p>
-      )}
 
       <Button
         type="submit"

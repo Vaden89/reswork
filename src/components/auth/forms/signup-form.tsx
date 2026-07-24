@@ -5,15 +5,15 @@ import { FormField } from '#/components/common/form'
 import { Link, useNavigate } from '@tanstack/react-router'
 
 import type { SubmitEvent } from 'react'
+import { useToast } from '#/context/toast.context'
 
 export function SignupForm() {
   const navigate = useNavigate()
-  const [error, setError] = useState<string | null>(null)
+  const { error } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
-    setError(null)
 
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get('email') ?? '').trim()
@@ -21,7 +21,7 @@ export function SignupForm() {
     const name = String(formData.get('username') ?? '')
 
     if (!email || !password || !name) {
-      setError('Enter your email, password, and name to continue.')
+      error('Enter your email, password, and name to continue.')
       return
     }
 
@@ -35,7 +35,7 @@ export function SignupForm() {
       })
 
       if (signInError) {
-        setError(
+        error(
           signInError.message ??
             'Unable to create account with those credentials.',
         )
@@ -44,7 +44,7 @@ export function SignupForm() {
 
       await navigate({ to: '/resumes' })
     } catch (caughtError) {
-      setError(
+      error(
         caughtError instanceof Error
           ? caughtError.message
           : 'Something went wrong.',
@@ -76,12 +76,6 @@ export function SignupForm() {
         type="password"
         placeholder="Enter your password"
       />
-
-      {error && (
-        <p className="w-full bg-red-50 py-2 border border-red-400 rounded-md text-sm text-red-500">
-          {error}
-        </p>
-      )}
 
       <Button
         type="submit"
