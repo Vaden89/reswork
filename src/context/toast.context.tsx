@@ -59,7 +59,7 @@ function ToastPortal() {
   const { toasts } = Toast.useToastManager()
 
   const baseStyling =
-    'flex h-full items-center gap-4 p-3 overflow-hidden transition-opacity duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] data-behind:opacity-0 data-expanded:opacity-100 bg-white border'
+    'flex h-full items-center gap-4 p-3 overflow-hidden transition-opacity duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] data-behind:opacity-0 data-expanded:opacity-100 bg-white shadow-md'
 
   return (
     <Toast.Portal>
@@ -67,9 +67,8 @@ function ToastPortal() {
         {toasts.map((toast) => {
           const styling = cn(
             baseStyling,
-            toast.type === 'error' && 'border-warning rounded-md text-warning',
-            toast.type === 'success' &&
-              'border-success rounded-md text-success',
+            toast.type === 'error' && ' rounded-md text-warning',
+            toast.type === 'success' && ' rounded-md text-success',
           )
           return (
             <Toast.Root
