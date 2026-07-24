@@ -60,27 +60,6 @@ button {
   display: none;
 }
 
-.ai-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--border-color) 0%,
-    #f4f4f4 45%,
-    var(--border-color) 90%
-  );
-  background-size: 200% 100%;
-  animation: ai-shimmer 1.4s ease-in-out infinite;
-}
-
-@keyframes ai-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
-}
-
 .nav-link {
   position: relative;
 }
@@ -98,4 +77,50 @@ button {
 
 .nav-link:hover::after {
   width: 100%;
+}
+
+.ai-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--border-color) 0%,
+    #f4f4f4 45%,
+    var(--border-color) 90%
+  );
+  background-size: 200% 100%;
+  animation: ai-shimmer 1.4s ease-in-out infinite;
+}
+
+.ai-typing-glow {
+  border-color: var(--accent-color) !important;
+  animation: ai-typing-glow 1.4s ease-in-out infinite;
+}
+
+.ai-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background-color: var(--accent-color);
+  flex-shrink: 0;
+  animation: ai-cursor-blink 0.7s ease-in-out infinite;
+}
+
+@keyframes ai-typing-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.28);
+  }
+}
+
+@keyframes ai-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
 }
