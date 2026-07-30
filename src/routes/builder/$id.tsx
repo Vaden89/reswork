@@ -18,6 +18,8 @@ import { ResumeSectionTopBar } from '#/components/builder/resume-section-topbar'
 import { FormField } from '#/components/common/form'
 import { TEMPLATES } from '#/data/templates/registry'
 import { PdfPreview } from '#/components/common/pdf-preview'
+import { FormNavigation } from '#/components/forms/form-navigation'
+import type { SectionId } from '#/data/templates/sections'
 
 export const Route = createFileRoute('/builder/$id')({
   component: RouteComponent,
@@ -37,7 +39,7 @@ function RouteComponent() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const previewResumeData = useDebounce(resumeData, 300)
   const debouncedResumeData = useDebounce(resumeData, 600)
-  const [activeSection, setActiveSection] = useState('general')
+  const [activeSection, setActiveSection] = useState<SectionId>('general')
   const [isPreviewVisible, setIsPreviewVisible] = useState(false)
 
   const hydratedId = useRef<string | null>(null)
@@ -115,7 +117,7 @@ function RouteComponent() {
             />
 
             {activeSection === 'general' && (
-              <GeneralInfoForm resumeData={resumeData} dispatch={dispatch} />
+              <GeneralInfoForm dispatch={dispatch} resumeData={resumeData} />
             )}
             {activeSection === 'skills' && (
               <SkillsForm resumeData={resumeData} dispatch={dispatch} />
@@ -129,6 +131,12 @@ function RouteComponent() {
             {activeSection === 'projects' && (
               <ProjectsForm resumeData={resumeData} dispatch={dispatch} />
             )}
+
+            <FormNavigation
+              section={activeSection}
+              setActiveSection={setActiveSection}
+              setIsPreviewVisible={setIsPreviewVisible}
+            />
           </div>
 
           <div
