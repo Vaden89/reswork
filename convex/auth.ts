@@ -10,9 +10,7 @@ import type { GenericCtx, AuthFunctions } from '@convex-dev/better-auth'
 
 const siteUrl = process.env.SITE_URL!
 
-console.log(siteUrl)
-
-export const DEFAULT_TOKEN_COUNT = 10
+export const DEFAULT_TOKEN_COUNT = 30
 
 const authFunctions: AuthFunctions = internal.auth
 

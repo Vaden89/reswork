@@ -1,15 +1,17 @@
-import { ArrowRight, ChevronDown } from 'lucide-react'
-import { Button } from '../common/button'
-import { capitalizeFirst } from '#/utils/string'
 import { useState } from 'react'
-import { RESUME_SECTIONS } from '#/data/templates/sections'
+import { Button } from '../common/button'
+import { ChevronDown } from 'lucide-react'
+import { capitalizeFirst } from '#/utils/string'
 import { AnimatePresence, motion } from 'motion/react'
+import { RESUME_SECTIONS } from '#/data/templates/sections'
+
 import type { Variants } from 'motion'
+import type { SectionId } from '#/data/templates/sections'
 
 interface ResumeSectionTopBarProps {
-  activeSection: string
+  activeSection: SectionId
   isPreviewVisible: boolean
-  setActiveSection: (section: string) => void
+  setActiveSection: (section: SectionId) => void
   setIsPreviewVisible: (visible: boolean) => void
 }
 
@@ -71,7 +73,7 @@ const itemVariant: Variants = {
 function SectionDropDown({
   activeSection,
   setActiveSection,
-}: Partial<ResumeSectionTopBarProps>) {
+}: Pick<ResumeSectionTopBarProps, 'activeSection' | 'setActiveSection'>) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -81,9 +83,7 @@ function SectionDropDown({
         onClick={() => setIsOpen((p) => !p)}
         className="flex items-center gap-5"
       >
-        <span className="w-24 text-left">
-          {capitalizeFirst(activeSection!)}
-        </span>
+        <span className="w-24 text-left">{capitalizeFirst(activeSection)}</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ type: 'spring', stiffness: 500, damping: 30 }}
