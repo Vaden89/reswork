@@ -96,7 +96,11 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
                   <View style={styles.responsibilitiesSection}>
                     {experience.responsibilities.map(
                       (responsibility, respIndex) => (
-                        <View key={respIndex} style={styles.bulletItem} wrap={false}>
+                        <View
+                          key={respIndex}
+                          style={styles.bulletItem}
+                          wrap={false}
+                        >
                           <Text style={styles.bullet}>•</Text>
                           <Text style={styles.bulletText}>
                             {responsibility}
@@ -122,10 +126,16 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
                   <View style={styles.projectMetaData}>
                     <View style={styles.projectHeaderSection}>
                       <Text style={styles.projectName}>{project.name} - </Text>
-                      <View>
-                        {project.technologies.length > 0 && (
-                          <Text>{project.technologies.join(', ')}</Text>
-                        )}
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {project.technologies.length > 0 &&
+                          project.technologies.map((item, index) => (
+                            <Text>
+                              {item}
+                              {index < project.technologies.length - 1
+                                ? ', '
+                                : ''}
+                            </Text>
+                          ))}
                       </View>
                     </View>
                     <Link href={project.live_url}>{project.live_url}</Link>
@@ -267,6 +277,7 @@ const styles = StyleSheet.create({
   projectName: {
     fontWeight: 'medium',
     fontStyle: 'normal',
+    marginRight: 2,
   },
   projectMetaData: {
     flexDirection: 'row',
@@ -275,9 +286,9 @@ const styles = StyleSheet.create({
   },
   projectHeaderSection: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 2,
     fontStyle: 'italic',
+    alignItems: 'flex-start',
   },
   projectDescription: {
     lineHeight: 5,
