@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { LogOut } from 'lucide-react'
+import { Coins, LogOut } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Navii } from '@usenavii/react'
+import { useQuery } from 'convex/react'
+import { api } from '../../../convex/_generated/api'
 import { useAuth } from '#/context/auth.context'
 import { authClient } from '#/lib/auth-client'
 
@@ -10,8 +12,10 @@ export const ProfileCard = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
-  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const { data: session } = authClient.useSession()
+  const tokenCount = useQuery(api.tokens.getTokenCount)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   useEffect(() => {
     if (!isOpen) return
@@ -67,14 +71,39 @@ export const ProfileCard = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.96 }}
             transition={{ duration: 0.16, ease: 'easeOut' }}
-            className="absolute right-0 top-full z-50 mt-3 w-44 origin-top-right rounded-xl border border-border bg-white p-1 shadow-lg"
+            className="absolute right-0 top-full z-50 mt-3 w-56 origin-top-right rounded-xl border border-border bg-white p-3 shadow-lg flex flex-col"
             role="menu"
           >
+            <div className="flex items-center gap-2">
+              <Navii
+                seed={user?.id ?? 'guest'}
+                size={48}
+                title="Profile"
+                className="rounded-full border border-border"
+              />
+              <div className="flex flex-col overflow-hidden">
+                <span className="truncate text-sm font-medium">
+                  {session?.user.name}
+                </span>
+                <span className="truncate text-xs text-">
+                  {session?.user.email}
+                </span>
+              </div>
+            </div>
+            <div className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-tertiary transition-colors hover:bg-border ">
+              <span className="flex items-center gap-1">
+                <Coins size={16} />
+                AI Token
+              </span>
+              <span className="ml-auto font-medium tabular-nums">
+                {tokenCount ?? '—'}
+              </span>
+            </div>
             <button
               type="button"
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-warning transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
               role="menuitem"
             >
               <LogOut size={16} />
