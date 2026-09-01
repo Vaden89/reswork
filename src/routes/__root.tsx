@@ -22,9 +22,20 @@ const convex = new ConvexReactClient(
 )
 
 function RootComponent() {
-  const hideChrome = useRouterState({
-    select: (state) =>
-      state.matches.some((match) => match.routeId.startsWith('/(auth)')),
+  const { hideChrome, hideFooter } = useRouterState({
+    select: (state) => {
+      const isAuthRoute = state.matches.some((match) =>
+        match.routeId.startsWith('/(auth)'),
+      )
+      const isResumeBuilderRoute = state.matches.some(
+        (match) => match.routeId === '/builder/$id',
+      )
+
+      return {
+        hideChrome: isAuthRoute,
+        hideFooter: isAuthRoute || isResumeBuilderRoute,
+      }
+    },
   })
 
   return (
@@ -39,7 +50,7 @@ function RootComponent() {
                 <Outlet />
               </div>
 
-              {!hideChrome && <Footer />}
+              {!hideFooter && <Footer />}
             </main>
           </ToastProvider>
         </DataSourceProvider>
