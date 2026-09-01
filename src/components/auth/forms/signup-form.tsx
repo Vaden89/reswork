@@ -60,7 +60,7 @@ export function SignupForm() {
       onSubmit={handleSubmit}
     >
       <h1 className="text-5xl font-medium leading-[80%]">Hey, There!</h1>
-      <p className="text-secondary">
+      <p className="text-secondary text-sm">
         Welcome to reswork. Where you get to easily and freely manage and build
         out your resumes.
       </p>
@@ -79,7 +79,7 @@ export function SignupForm() {
 
       <Button
         type="submit"
-        text={isSubmitting ? 'Logging in...' : 'Register'}
+        text={isSubmitting ? 'Registering...' : 'Register'}
         className="w-full py-2"
         disabled={isSubmitting}
       />
