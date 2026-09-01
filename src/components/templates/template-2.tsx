@@ -120,35 +120,36 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
           </View>
         )}
 
-        {data.education.length > 0 &&
-          data.education.map((education, index) => (
-            <View key={index} style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text>
-                  {education.degree_type} {education.course}
-                </Text>
-              </View>
-              <View style={styles.projectSection}>
-                <View style={styles.projectMetaData}>
-                  <Text style={styles.companyName}>{education.school}</Text>
-                  <Text>{education.location}</Text>
-                </View>
-                <View style={styles.projectMetaData}>
-                  <View style={{ flexDirection: 'row', gap: 5 }}>
+        {data.education.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text>EDUCATION</Text>
+            </View>
+            <View style={styles.projectContainer}>
+              {data.education.map((education, index) => (
+                <View key={index} style={styles.projectSection}>
+                  <View style={styles.projectMetaData}>
+                    <Text style={styles.companyName}>{education.school}</Text>
+                    <Text>{education.location}</Text>
+                  </View>
+                  <View style={styles.projectMetaData}>
+                    <View style={{ flexDirection: 'row', gap: 5 }}>
+                      <Text>
+                        {education.degree_type} {education.course}
+                      </Text>
+                      <Text style={{ fontStyle: 'italic' }}>
+                        GPA: {education.gpa}
+                      </Text>
+                    </View>
                     <Text>
-                      {education.degree_type} {education.course}
-                    </Text>
-                    <Text style={{ fontStyle: 'italic' }}>
-                      GPA: {education.gpa}
+                      {education.start_date} - {education.end_date}
                     </Text>
                   </View>
-                  <Text>
-                    {education.start_date} - {education.end_date}
-                  </Text>
                 </View>
-              </View>
+              ))}
             </View>
-          ))}
+          </View>
+        )}
       </Page>
     </Document>
   )
