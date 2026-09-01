@@ -1,25 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
-import { useResumeData } from '#/hooks/use-resume-data'
 import { useResume } from '#/hooks/use-resumes'
+import { useDebounce } from '#/hooks/use-debounce'
+import { useEffect, useRef, useState } from 'react'
+import { Button } from '#/components/common/button'
+import { FileText, LayoutGrid } from 'lucide-react'
+import { FormField } from '#/components/common/form'
+import { useResumeData } from '#/hooks/use-resume-data'
+import type { SectionId } from '#/data/templates/sections'
 import { useDataSource } from '#/context/data-source.context'
-import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { SkillsForm } from '#/components/forms/skills/skills-form'
+import { FormNavigation } from '#/components/forms/form-navigation'
+import { GeneralInfoForm } from '#/components/forms/general-info-form'
+import { ProjectsForm } from '#/components/forms/projects/projects-form'
+import { createFileRoute, Link, useParams } from '@tanstack/react-router'
 import { EducationForm } from '#/components/forms/education/education-form'
 import { ExperienceForm } from '#/components/forms/experience/experience-form'
-import { GeneralInfoForm } from '#/components/forms/general-info-form'
-import { ResumeSectionSideBar } from '#/components/builder/resume-section-sidebar'
-import { Button } from '#/components/common/button'
-import { Download, FileText, LayoutGrid } from 'lucide-react'
-import { usePDF } from '@react-pdf/renderer'
-import { Template1 } from '#/components/templates/template-1'
-import { useDebounce } from '#/hooks/use-debounce'
-import { ProjectsForm } from '#/components/forms/projects/projects-form'
+import { PdfPreviewSection } from '#/components/builder/pdf-preview-section'
 import { ResumeSectionTopBar } from '#/components/builder/resume-section-topbar'
-import { FormField } from '#/components/common/form'
-import { TEMPLATES } from '#/data/templates/registry'
-import { PdfPreview } from '#/components/common/pdf-preview'
-import { FormNavigation } from '#/components/forms/form-navigation'
-import type { SectionId } from '#/data/templates/sections'
+import { ResumeSectionSideBar } from '#/components/builder/resume-section-sidebar'
 
 export const Route = createFileRoute('/builder/$id')({
   component: RouteComponent,
@@ -32,7 +29,6 @@ function RouteComponent() {
   const { repository } = useDataSource()
   const { updateResumeData, renameResume } = repository
 
-  const [instance, updatePDF] = usePDF()
   const [title, setTitle] = useState('')
   const debouncedTitle = useDebounce(title, 600)
   const { resumeData, dispatch } = useResumeData()
@@ -50,12 +46,6 @@ function RouteComponent() {
       hydratedId.current = resumeId
     }
   }, [resume, resumeId, dispatch])
-
-  useEffect(() => {
-    const template = TEMPLATES.find((t) => t.id === resume?.template_id)
-    const SelectedTemplate = template?.component ?? Template1
-    updatePDF(<SelectedTemplate data={previewResumeData} />)
-  }, [previewResumeData, resume?.template_id, updatePDF])
 
   useEffect(() => {
     if (hydratedId.current !== resumeId) return
@@ -139,38 +129,12 @@ function RouteComponent() {
             />
           </div>
 
-          <div
-            className={`${isPreviewVisible ? 'flex' : 'hidden lg:flex'} flex-1 min-h-0 flex-col`}
-          >
-            <div className="py-2 xl:py-5 px-2 xl:px-4 flex items-center justify-between border-b border-border">
-              <span className="text-lg text-secondary font-medium">
-                LIVE PREVIEW
-              </span>
-              <Button
-                text="Export PDF"
-                icon={<Download size={20} />}
-                iconPosition="left"
-                className="px-4 text-[13px] py-2"
-                onClick={() => {
-                  if (!instance.url) return
-                  const a = document.createElement('a')
-                  a.href = instance.url
-                  a.download = `${title}.pdf`
-                  a.click()
-                }}
-              />
-            </div>
-            <div className="flex-1 min-h-0 border-l border-border relative">
-              {instance.loading && (
-                <div className="absolute top-2 right-2 z-10 pointer-events-none">
-                  <span className="text-xs text-secondary bg-white/80 border border-border px-2 py-1">
-                    Updating preview…
-                  </span>
-                </div>
-              )}
-              <PdfPreview url={instance.url} className="absolute inset-0" />
-            </div>
-          </div>
+          <PdfPreviewSection
+            title={title}
+            templateId={resume.template_id}
+            previewData={previewResumeData}
+            isPreviewVisible={isPreviewVisible}
+          />
         </div>
       </section>
     </main>

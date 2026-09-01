@@ -33,7 +33,7 @@ export const localRepository: ResumeRepository = {
 
         await db.resumeDataSource.add({
           id: data_source_id,
-          data: EMPTY_TEMPLATE_DATA,
+          data: options.data ?? EMPTY_TEMPLATE_DATA,
           created_at: now,
           updated_at: now,
         })

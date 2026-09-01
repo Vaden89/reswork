@@ -6,7 +6,7 @@ export type Resume = ResumeMetadata & { data: TemplateData }
 export type CreateResumeOptions = Omit<
   ResumeMetadata,
   'id' | 'created_at' | 'updated_at' | 'data_source_id'
->
+> & { data?: TemplateData }
 
 export interface ResumeRepository {
   listResumes: () => Promise<ResumeMetadata[]>
