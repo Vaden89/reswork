@@ -4,15 +4,14 @@ import { useToast } from '#/context/toast.context'
 import { authClient } from '#/lib/auth-client'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 
 export function LoginForm() {
-  const navigate = useNavigate()
-  // const [error, setError] = useState<string | null>(null)
   const { error } = useToast()
+  const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get('email') ?? '').trim()
@@ -54,7 +53,7 @@ export function LoginForm() {
       onSubmit={handleSubmit}
     >
       <h1 className="text-5xl font-medium leading-[80%]">Welcome back!</h1>
-      <p className="text-secondary">
+      <p className="text-secondary text-sm">
         Your work experience, your resume, your professional history all in one
         place.
       </p>
