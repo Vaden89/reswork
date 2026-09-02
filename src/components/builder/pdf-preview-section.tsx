@@ -1,13 +1,18 @@
-import { usePDF } from '@react-pdf/renderer'
-import { useEffect } from 'react'
 import { Download } from 'lucide-react'
+import { usePDF } from '@react-pdf/renderer'
 import { Button } from '#/components/common/button'
 import { TEMPLATES } from '#/data/templates/registry'
+import { pdfBlobToThumbnail } from '#/utils/thumbnail'
+import { useCallback, useEffect, useRef } from 'react'
+import type { TemplateData } from '#/types/template.type'
 import { PdfPreview } from '#/components/common/pdf-preview'
 import { Template1 } from '#/components/templates/template-1'
-import type { TemplateData } from '#/types/template.type'
+import { useDataSource } from '#/context/data-source.context'
+
+const SNAPSHOT_IDLE_MS = 2500
 
 interface PdfPreviewSectionProps {
+  resumeId: string
   title: string
   templateId?: string
   previewData: TemplateData
@@ -15,18 +20,42 @@ interface PdfPreviewSectionProps {
 }
 
 export const PdfPreviewSection = ({
+  resumeId,
   title,
   templateId,
   previewData,
   isPreviewVisible,
 }: PdfPreviewSectionProps) => {
   const [instance, updatePDF] = usePDF()
+  const { repository } = useDataSource()
+  const savedBlobRef = useRef<Blob | null>(null)
+
+  const captureAndSave = useCallback(
+    async (blob: Blob | null) => {
+      if (!blob || savedBlobRef.current === blob) return
+      savedBlobRef.current = blob
+      try {
+        const thumbnail = await pdfBlobToThumbnail(blob)
+        await repository.savePreview(resumeId, thumbnail)
+      } catch (error) {
+        savedBlobRef.current = null
+      }
+    },
+    [repository, resumeId],
+  )
 
   useEffect(() => {
     const template = TEMPLATES.find((t) => t.id === templateId)
     const SelectedTemplate = template?.component ?? Template1
     updatePDF(<SelectedTemplate data={previewData} />)
   }, [previewData, templateId, updatePDF])
+
+  useEffect(() => {
+    if (instance.loading || !instance.blob) return
+    const blob = instance.blob
+    const timer = setTimeout(() => void captureAndSave(blob), SNAPSHOT_IDLE_MS)
+    return () => clearTimeout(timer)
+  }, [instance.blob, instance.loading, captureAndSave])
 
   return (
     <div
@@ -45,6 +74,7 @@ export const PdfPreviewSection = ({
             a.href = instance.url
             a.download = `${title}.pdf`
             a.click()
+            void captureAndSave(instance.blob)
           }}
         />
       </div>
