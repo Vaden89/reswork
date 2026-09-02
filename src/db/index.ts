@@ -13,4 +13,10 @@ db.version(1).stores({
   resumeDataSource: 'id, created_at, updated_at',
 })
 
+db.version(2).stores({
+  resumeMetadata:
+    'id, title, template_id, data_source_id, created_at, updated_at',
+  resumeDataSource: 'id, created_at, updated_at',
+})
+
 export { db }
