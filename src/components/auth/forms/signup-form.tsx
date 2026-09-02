@@ -6,11 +6,13 @@ import { Link, useNavigate } from '@tanstack/react-router'
 
 import type { SubmitEvent } from 'react'
 import { useToast } from '#/context/toast.context'
+import { Eye, EyeOff } from 'lucide-react'
 
 export function SignupForm() {
   const navigate = useNavigate()
   const { error } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -71,12 +73,19 @@ export function SignupForm() {
       />
       <FormField label="Email" name="email" placeholder="Enter your email" />
       <FormField
-        label="Password"
         name="password"
-        type="password"
+        type={isPasswordVisible ? 'text' : 'password'}
+        label="Password"
+        extra={
+          <span
+            className="text-secondary"
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+          >
+            {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+          </span>
+        }
         placeholder="Enter your password"
       />
-
       <Button
         type="submit"
         text={isSubmitting ? 'Registering...' : 'Register'}
