@@ -73,6 +73,10 @@ export const localRepository: ResumeRepository = {
     await db.resumeMetadata.update(id, { title, updated_at: new Date() })
   },
 
+  async savePreview(id: string, image: Blob): Promise<void> {
+    await db.resumeMetadata.update(id, { preview: image })
+  },
+
   async deleteResume(id: string): Promise<void> {
     await db.transaction(
       'rw',
