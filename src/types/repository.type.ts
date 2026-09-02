@@ -15,4 +15,5 @@ export interface ResumeRepository {
   updateResumeData: (id: string, data: TemplateData) => Promise<void>
   renameResume: (id: string, title: string) => Promise<void>
   deleteResume: (id: string) => Promise<void>
+  savePreview: (id: string, image: Blob) => Promise<void>
 }
