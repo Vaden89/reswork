@@ -131,6 +131,7 @@ function RouteComponent() {
 
           <PdfPreviewSection
             title={title}
+            resumeId={resumeId}
             templateId={resume.template_id}
             previewData={previewResumeData}
             isPreviewVisible={isPreviewVisible}

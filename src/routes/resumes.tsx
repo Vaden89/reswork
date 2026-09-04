@@ -6,6 +6,7 @@ import type { ResumeMetadata } from '#/types/db.type'
 import { formatDate } from '#/utils/date'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Download, Edit, Plus, Trash2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/resumes')({ component: RouteComponent })
 
@@ -66,6 +67,21 @@ function RouteComponent() {
 
 function ResumeCard({ resume }: { resume: ResumeMetadata }) {
   const { repository } = useDataSource()
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!resume.preview) {
+      setPreviewUrl(null)
+      return
+    }
+    const url = URL.createObjectURL(resume.preview)
+    setPreviewUrl(url)
+    return () => URL.revokeObjectURL(url)
+  }, [resume.preview])
+
+  const fallbackSrc =
+    '/images/template/' + resume.template_id.split('-')[1] + '.webp'
+
   return (
     <div className=" flex flex-col">
       <div className="h-125 bg-border p-3">
@@ -73,7 +89,7 @@ function ResumeCard({ resume }: { resume: ResumeMetadata }) {
           width={500}
           height={500}
           alt={resume.title}
-          src={'/images/template/' + resume.template_id.split('-')[1] + '.webp'}
+          src={previewUrl ?? fallbackSrc}
           className="w-full h-full  object-center"
         />
       </div>

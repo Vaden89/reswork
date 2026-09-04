@@ -3,6 +3,7 @@ import { FormField } from '#/components/common/form'
 import { useToast } from '#/context/toast.context'
 import { authClient } from '#/lib/auth-client'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 
@@ -10,12 +11,13 @@ export function LoginForm() {
   const { error } = useToast()
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get('email') ?? '').trim()
-    const password = String(formData.get('password') ?? '')
+    const password = String(formData.get('password') ?? '').trim()
 
     if (!email || !password) {
       error('Enter your email and password to continue.')
@@ -59,9 +61,17 @@ export function LoginForm() {
       </p>
       <FormField label="Email" name="email" placeholder="Enter your email" />
       <FormField
-        label="Password"
         name="password"
-        type="password"
+        type={isPasswordVisible ? 'text' : 'password'}
+        label="Password"
+        extra={
+          <span
+            className="text-secondary"
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+          >
+            {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+          </span>
+        }
         placeholder="Enter your password"
       />
 
@@ -83,4 +93,8 @@ export function LoginForm() {
       </div>
     </form>
   )
+}
+
+function maskPassword(password: string): string {
+  return password.replace(/./g, '*')
 }
