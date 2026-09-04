@@ -2,6 +2,7 @@ import { Button } from './common/button'
 import { FormField } from './common/form'
 import { Plus, Trash2 } from 'lucide-react'
 import type { Project } from '#/types/template.type'
+import { DeleteCardBtn } from './common/delete-card-btn'
 
 interface ProjectCardProps {
   project: Project
@@ -23,7 +24,7 @@ export function ProjectCard({
   onUpdateTechnology,
 }: ProjectCardProps) {
   return (
-    <div className="w-full p-4 border border-border flex flex-col gap-4">
+    <div className="w-full p-4 border border-border flex flex-col gap-4 relative">
       <div className="w-full flex items-start gap-2">
         <div className="flex-1 grid grid-cols-2 gap-4">
           <FormField
@@ -34,21 +35,16 @@ export function ProjectCard({
             onChange={(e) => onUpdate('name', e.target.value)}
           />
           <FormField
-            label="Live URL"
+            label="Live URL ( optional )"
             name="live_url"
-            placeholder="https://myapp.com"
+            required={false}
             value={project.live_url}
+            placeholder="https://myapp.com"
             onChange={(e) => onUpdate('live_url', e.target.value)}
           />
         </div>
         {canRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="text-red-500 mt-6"
-          >
-            <Trash2 size={24} />
-          </button>
+          <DeleteCardBtn toolTip="Delete Project" onDelete={onRemove} />
         )}
       </div>
       <FormField

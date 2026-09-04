@@ -120,9 +120,11 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
                           ))}
                       </View>
                     </View>
-                    <Link href={project.live_url}>{project.live_url}</Link>
+                    {project.live_url && (
+                      <Link href={project.live_url}>{project.live_url}</Link>
+                    )}
                   </View>
-                  <View style={{}}>
+                  <View>
                     <Text>{project.description}</Text>
                   </View>
                 </View>
@@ -150,9 +152,7 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
                       <Text>
                         {education.degree_type} {education.course}
                       </Text>
-                      <Text style={{ fontStyle: 'italic' }}>
-                        GPA: {education.gpa}
-                      </Text>
+                      {education.gpa && <Text>GPA: {education.gpa}</Text>}
                     </View>
                     <Text>
                       {education.start_date} - {education.end_date}
