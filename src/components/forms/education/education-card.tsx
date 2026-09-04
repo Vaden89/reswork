@@ -2,6 +2,7 @@ import { Trash2 } from 'lucide-react'
 import { FormField, FormSelect } from '../../common/form'
 import type { Education } from '#/types/template.type'
 import { DEGREE_TYPES } from '#/data/constants/degree-types'
+import { DeleteCardBtn } from '#/components/common/delete-card-btn'
 
 export interface EducationCardProps {
   edu: Education
@@ -17,7 +18,7 @@ export function EducationCard({
   onUpdate,
 }: EducationCardProps) {
   return (
-    <div className="w-full p-4 border border-border flex flex-col gap-4">
+    <div className="w-full p-4 border border-border flex flex-col gap-4 relative">
       <div className="w-full flex items-start gap-2">
         <div className="flex-1 grid grid-cols-2 gap-2 sm:gap-4">
           <FormField
@@ -36,13 +37,7 @@ export function EducationCard({
           />
         </div>
         {canRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="text-red-500 mt-6"
-          >
-            <Trash2 size={24} />
-          </button>
+          <DeleteCardBtn onDelete={onRemove} toolTip="Delete Education" />
         )}
       </div>
       <div className="grid grid-cols-2 gap-2 sm:gap-4">

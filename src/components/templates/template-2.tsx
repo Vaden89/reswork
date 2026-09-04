@@ -78,7 +78,11 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
                   <View style={styles.responsibilitiesSection}>
                     {experience.responsibilities.map(
                       (responsibility, respIndex) => (
-                        <View key={respIndex} style={styles.bulletItem} wrap={false}>
+                        <View
+                          key={respIndex}
+                          style={styles.bulletItem}
+                          wrap={false}
+                        >
                           <Text style={styles.bullet}>•</Text>
                           <Text style={styles.bulletText}>
                             {responsibility}
@@ -103,9 +107,16 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
                 <View key={index} style={styles.projectSection}>
                   <View style={styles.projectMetaData}>
                     <View style={styles.projectHeaderSection}>
-                      <Link href={project.live_url} style={styles.projectName}>
-                        {project.name}
-                      </Link>
+                      {project.live_url ? (
+                        <Link
+                          href={project.live_url}
+                          style={styles.projectName}
+                        >
+                          {project.name}
+                        </Link>
+                      ) : (
+                        <Text style={styles.projectName}>{project.name}</Text>
+                      )}
                       <Text style={styles.metaMuted}>
                         - {project.technologies.join(', ')}
                       </Text>
@@ -137,9 +148,7 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
                       <Text>
                         {education.degree_type} {education.course}
                       </Text>
-                      <Text style={{ fontStyle: 'italic' }}>
-                        GPA: {education.gpa}
-                      </Text>
+                      {education.gpa && <Text>GPA: {education.gpa}</Text>}
                     </View>
                     <Text>
                       {education.start_date} - {education.end_date}
