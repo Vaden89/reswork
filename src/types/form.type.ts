@@ -7,9 +7,14 @@ export interface FormFieldProps {
   value?: string
   extra?: ReactNode
   classname?: string
+  required?: boolean
   placeholder?: string
   inputClassName?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
+}
+
+export interface FormTextareaProps extends Omit<FormFieldProps, 'onChange'> {
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>
 }
 
 export interface FormSelectProps {
