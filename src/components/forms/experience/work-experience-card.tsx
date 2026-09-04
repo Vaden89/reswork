@@ -3,6 +3,7 @@ import { FormField } from '../../common/form'
 import { Button } from '../../common/button'
 import type { WorkExperience } from '#/types/template.type'
 import { ResponsibilityInput } from './responsibility-input'
+import { DeleteCardBtn } from '#/components/common/delete-card-btn'
 
 export interface WorkExperienceCardProps {
   exp: WorkExperience
@@ -24,7 +25,7 @@ export function WorkExperienceCard({
   onRemoveResponsibility,
 }: WorkExperienceCardProps) {
   return (
-    <div className="w-full p-4 border border-border flex flex-col gap-4">
+    <div className="w-full p-4 border border-border flex flex-col gap-4 relative">
       <div className="w-full flex items-start gap-2">
         <div className="flex-1 grid grid-cols-2 gap-4">
           <FormField
@@ -43,13 +44,7 @@ export function WorkExperienceCard({
           />
         </div>
         {canRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="text-red-500 mt-6"
-          >
-            <Trash2 size={24} />
-          </button>
+          <DeleteCardBtn toolTip="Delete Experience" onDelete={onRemove} />
         )}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

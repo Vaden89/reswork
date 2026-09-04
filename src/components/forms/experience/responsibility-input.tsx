@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FormField } from '../../common/form'
+import { FormField, FormTextarea } from '../../common/form'
 import { Sparkles, Trash2 } from 'lucide-react'
 import * as AiService from '#/services/ai.service'
 import type { WorkExperience } from '#/types/template.type'
@@ -26,7 +26,7 @@ export function ResponsibilityInput({
   const { error, success } = useToast()
   const isAuthenticated = user?.type === 'authenticated'
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const typingInputRef = useRef<HTMLInputElement>(null)
+  const typingInputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     return () => {
@@ -34,10 +34,9 @@ export function ResponsibilityInput({
     }
   }, [])
 
-  // Scroll to end of input as each character is typed
   useEffect(() => {
     if (isTyping && typingInputRef.current) {
-      typingInputRef.current.scrollLeft = typingInputRef.current.scrollWidth
+      typingInputRef.current.scrollTop = typingInputRef.current.scrollHeight
     }
   }, [value, isTyping])
 
@@ -94,22 +93,23 @@ export function ResponsibilityInput({
 
   return (
     <div className="space-y-1">
-      <div className="flex items-center gap-2">
+      <div className="flex items-start gap-2">
         {isTyping ? (
-          <div className="flex h-10 flex-1 items-center border border-border bg-white ai-typing-glow">
-            <input
+          <div className="noscroll flex flex-1 items-start border border-border bg-white py-1 ai-typing-glow">
+            <textarea
               ref={typingInputRef}
               readOnly
               value={value}
-              className="h-full min-w-0 flex-1 bg-transparent px-4 outline-none caret-transparent"
+              rows={1}
+              className="noscroll min-h-18 field-sizing-content min-w-0 flex-1 resize-none bg-transparent px-4 outline-none caret-transparent"
             />
-            <div className="flex shrink-0 items-center gap-1 px-2">
+            <div className="flex shrink-0 items-center gap-1 px-2 pt-1">
               <span className="ai-cursor" />
               <Sparkles size={14} className="animate-pulse text-accent" />
             </div>
           </div>
         ) : (
-          <FormField
+          <FormTextarea
             value={value}
             classname="flex-1"
             name="responsibility"
@@ -133,7 +133,7 @@ export function ResponsibilityInput({
             }
           />
         )}
-        <button type="button" onClick={onRemove} className="text-red-500">
+        <button type="button" onClick={onRemove} className="text-red-500 mt-2">
           <Trash2 size={18} />
         </button>
       </div>
