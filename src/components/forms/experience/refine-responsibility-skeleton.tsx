@@ -6,7 +6,7 @@ export const RefineResponsibilitySkeleton = () => {
       aria-busy="true"
     >
       <span className="sr-only">Refining responsibility with AI...</span>
-      <div className="flex h-10 flex-1 overflow-hidden border border-border ai-shimmer"></div>
+      <div className="flex min-h-18 flex-1 overflow-hidden border border-border ai-shimmer"></div>
     </div>
   )
 }
