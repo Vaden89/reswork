@@ -32,7 +32,7 @@ function RouteComponent() {
   const [title, setTitle] = useState('')
   const debouncedTitle = useDebounce(title, 600)
   const { resumeData, dispatch } = useResumeData()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const previewResumeData = useDebounce(resumeData, 300)
   const debouncedResumeData = useDebounce(resumeData, 600)
   const [activeSection, setActiveSection] = useState<SectionId>('general')
