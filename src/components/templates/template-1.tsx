@@ -62,37 +62,43 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
               <Text>WORK EXPERIENCE</Text>
             </View>
             <View style={styles.workExperienceSection}>
-              {data.workExperience.map((experience, index) => (
-                <View key={index} style={styles.workExperienceContainer}>
-                  <View style={styles.workExperienceMetaData}>
-                    <Text style={styles.companyName}>{experience.company}</Text>
-                    <Text>{experience.location}</Text>
-                  </View>
-                  <View style={styles.workExperienceMetaData}>
-                    <Text>{experience.position}</Text>
+              {data.workExperience.map((experience, index) => {
+                const [firstResp, ...restResps] = experience.responsibilities
+                return (
+                  <View key={index} style={styles.workExperienceContainer}>
+                    {/* Header + first responsibility move to the next page together */}
+                    <View wrap={false}>
+                      <View style={styles.workExperienceMetaData}>
+                        <Text style={styles.companyName}>
+                          {experience.company}
+                        </Text>
+                        <Text>{experience.location}</Text>
+                      </View>
+                      <View style={styles.workExperienceMetaData}>
+                        <Text>{experience.position}</Text>
 
-                    <Text>
-                      {experience.start_date} - {experience.end_date}
-                    </Text>
-                  </View>
-                  <View style={styles.responsibilitiesSection}>
-                    {experience.responsibilities.map(
-                      (responsibility, respIndex) => (
-                        <View
-                          key={respIndex}
-                          style={styles.bulletItem}
-                          wrap={false}
-                        >
-                          <Text style={styles.bullet}>•</Text>
-                          <Text style={styles.bulletText}>
-                            {responsibility}
-                          </Text>
+                        <Text>
+                          {experience.start_date} - {experience.end_date}
+                        </Text>
+                      </View>
+                      {firstResp && (
+                        <View style={styles.responsibilitiesSection}>
+                          <Bullet text={firstResp} />
                         </View>
-                      ),
+                      )}
+                    </View>
+                    {restResps.length > 0 && (
+                      <View
+                        style={[styles.responsibilitiesSection, { marginTop: 2 }]}
+                      >
+                        {restResps.map((responsibility, respIndex) => (
+                          <Bullet key={respIndex} text={responsibility} />
+                        ))}
+                      </View>
                     )}
                   </View>
-                </View>
-              ))}
+                )
+              })}
             </View>
           </View>
         )}
@@ -167,6 +173,13 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
     </Document>
   )
 }
+
+const Bullet = ({ text }: { text: string }) => (
+  <View style={styles.bulletItem} wrap={false}>
+    <Text style={styles.bullet}>•</Text>
+    <Text style={styles.bulletText}>{text}</Text>
+  </View>
+)
 
 const styles = StyleSheet.create({
   page: {
