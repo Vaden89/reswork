@@ -33,7 +33,7 @@ export const localRepository: ResumeRepository = {
 
         await db.resumeDataSource.add({
           id: data_source_id,
-          data: EMPTY_TEMPLATE_DATA,
+          data: options.data ?? EMPTY_TEMPLATE_DATA,
           created_at: now,
           updated_at: now,
         })
@@ -71,6 +71,10 @@ export const localRepository: ResumeRepository = {
 
   async renameResume(id: string, title: string): Promise<void> {
     await db.resumeMetadata.update(id, { title, updated_at: new Date() })
+  },
+
+  async savePreview(id: string, image: Blob): Promise<void> {
+    await db.resumeMetadata.update(id, { preview: image })
   },
 
   async deleteResume(id: string): Promise<void> {

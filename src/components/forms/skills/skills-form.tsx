@@ -13,7 +13,8 @@ export const SkillsForm = ({ resumeData, dispatch }: FormProps) => {
 
   const addSkill = () => dispatch({ type: 'ADD_SKILL' })
 
-  const removeSkill = (i: number) => dispatch({ type: 'REMOVE_SKILL', index: i })
+  const removeSkill = (i: number) =>
+    dispatch({ type: 'REMOVE_SKILL', index: i })
 
   const updateSkillName = (i: number, value: string) =>
     dispatch({ type: 'UPDATE_SKILL_NAME', index: i, value })

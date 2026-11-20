@@ -6,26 +6,8 @@ import {
   Page,
   StyleSheet,
   Text,
-  Font,
   View,
 } from '@react-pdf/renderer'
-
-Font.register({
-  family: 'Playfair Display',
-  fonts: [
-    {
-      src: '/fonts/playfair/PlayfairDisplay-Regular.ttf',
-    },
-    {
-      src: '/fonts/playfair/PlayfairDisplay-SemiBold.ttf',
-      fontWeight: 600,
-    },
-    {
-      src: '/fonts/playfair/PlayfairDisplay-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-})
 
 export const Template1 = ({ data }: { data: TemplateData }) => {
   return (
@@ -80,33 +62,43 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
               <Text>WORK EXPERIENCE</Text>
             </View>
             <View style={styles.workExperienceSection}>
-              {data.workExperience.map((experience, index) => (
-                <View key={index} style={styles.workExperienceContainer}>
-                  <View style={styles.workExperienceMetaData}>
-                    <Text style={styles.companyName}>{experience.company}</Text>
-                    <Text>{experience.location}</Text>
-                  </View>
-                  <View style={styles.workExperienceMetaData}>
-                    <Text>{experience.position}</Text>
+              {data.workExperience.map((experience, index) => {
+                const [firstResp, ...restResps] = experience.responsibilities
+                return (
+                  <View key={index} style={styles.workExperienceContainer}>
+                    {/* Header + first responsibility move to the next page together */}
+                    <View wrap={false}>
+                      <View style={styles.workExperienceMetaData}>
+                        <Text style={styles.companyName}>
+                          {experience.company}
+                        </Text>
+                        <Text>{experience.location}</Text>
+                      </View>
+                      <View style={styles.workExperienceMetaData}>
+                        <Text>{experience.position}</Text>
 
-                    <Text>
-                      {experience.start_date} - {experience.end_date}
-                    </Text>
-                  </View>
-                  <View style={styles.responsibilitiesSection}>
-                    {experience.responsibilities.map(
-                      (responsibility, respIndex) => (
-                        <View key={respIndex} style={styles.bulletItem}>
-                          <Text style={styles.bullet}>•</Text>
-                          <Text style={styles.bulletText}>
-                            {responsibility}
-                          </Text>
+                        <Text>
+                          {experience.start_date} - {experience.end_date}
+                        </Text>
+                      </View>
+                      {firstResp && (
+                        <View style={styles.responsibilitiesSection}>
+                          <Bullet text={firstResp} />
                         </View>
-                      ),
+                      )}
+                    </View>
+                    {restResps.length > 0 && (
+                      <View
+                        style={[styles.responsibilitiesSection, { marginTop: 2 }]}
+                      >
+                        {restResps.map((responsibility, respIndex) => (
+                          <Bullet key={respIndex} text={responsibility} />
+                        ))}
+                      </View>
                     )}
                   </View>
-                </View>
-              ))}
+                )
+              })}
             </View>
           </View>
         )}
@@ -122,15 +114,23 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
                   <View style={styles.projectMetaData}>
                     <View style={styles.projectHeaderSection}>
                       <Text style={styles.projectName}>{project.name} - </Text>
-                      <View>
-                        {project.technologies.length > 0 && (
-                          <Text>{project.technologies.join(', ')}</Text>
-                        )}
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {project.technologies.length > 0 &&
+                          project.technologies.map((item, index) => (
+                            <Text>
+                              {item}
+                              {index < project.technologies.length - 1
+                                ? ', '
+                                : ''}
+                            </Text>
+                          ))}
                       </View>
                     </View>
-                    <Link href={project.live_url}>{project.live_url}</Link>
+                    {project.live_url && (
+                      <Link href={project.live_url}>{project.live_url}</Link>
+                    )}
                   </View>
-                  <View style={{}}>
+                  <View>
                     <Text>{project.description}</Text>
                   </View>
                 </View>
@@ -139,41 +139,47 @@ export const Template1 = ({ data }: { data: TemplateData }) => {
           </View>
         )}
 
-        {data.education.length > 0 &&
-          data.education.map((education, index) => (
-            <View key={index} style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text>
-                  {education.degree_type} {education.course}
-                </Text>
-              </View>
-              <View style={styles.projectSection}>
-                <View style={styles.projectMetaData}>
-                  <Text style={{ fontWeight: 'semibold' }}>
-                    {education.school}
-                  </Text>
-                  <Text>{education.location}</Text>
-                </View>
-                <View style={styles.projectMetaData}>
-                  <View style={{ flexDirection: 'row', gap: 5 }}>
-                    <Text>
-                      {education.degree_type} {education.course}
+        {data.education.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text>EDUCATION</Text>
+            </View>
+            <View style={styles.projectContainer}>
+              {data.education.map((education, index) => (
+                <View key={index} style={styles.projectSection}>
+                  <View style={styles.projectMetaData}>
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {education.school}
                     </Text>
-                    <Text style={{ fontStyle: 'italic' }}>
-                      GPA: {education.gpa}
+                    <Text>{education.location}</Text>
+                  </View>
+                  <View style={styles.projectMetaData}>
+                    <View style={{ flexDirection: 'row', gap: 5 }}>
+                      <Text>
+                        {education.degree_type} {education.course}
+                      </Text>
+                      {education.gpa && <Text>GPA: {education.gpa}</Text>}
+                    </View>
+                    <Text>
+                      {education.start_date} - {education.end_date}
                     </Text>
                   </View>
-                  <Text>
-                    {education.start_date} - {education.end_date}
-                  </Text>
                 </View>
-              </View>
+              ))}
             </View>
-          ))}
+          </View>
+        )}
       </Page>
     </Document>
   )
 }
+
+const Bullet = ({ text }: { text: string }) => (
+  <View style={styles.bulletItem} wrap={false}>
+    <Text style={styles.bullet}>•</Text>
+    <Text style={styles.bulletText}>{text}</Text>
+  </View>
+)
 
 const styles = StyleSheet.create({
   page: {
@@ -181,13 +187,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    fontFamily: 'Playfair Display',
+    fontFamily: 'Times-Roman',
   },
   header: {
     flexDirection: 'column',
     alignItems: 'center',
     fontSize: 30,
-    fontWeight: 'semibold',
+    fontWeight: 'bold',
   },
   generalInfo: {
     flexDirection: 'row',
@@ -232,7 +238,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   companyName: {
-    fontWeight: 'semibold',
+    fontWeight: 'bold',
   },
   workExperienceMetaData: {
     flexDirection: 'row',
@@ -265,8 +271,9 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   projectName: {
-    fontWeight: 'medium',
+    fontWeight: 'bold',
     fontStyle: 'normal',
+    marginRight: 2,
   },
   projectMetaData: {
     flexDirection: 'row',
@@ -275,9 +282,9 @@ const styles = StyleSheet.create({
   },
   projectHeaderSection: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 2,
     fontStyle: 'italic',
+    alignItems: 'flex-start',
   },
   projectDescription: {
     lineHeight: 5,

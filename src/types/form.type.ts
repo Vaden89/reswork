@@ -1,13 +1,20 @@
-import type { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler, ReactNode } from 'react'
 
 export interface FormFieldProps {
   name: string
   label?: string
+  type?: string
   value?: string
+  extra?: ReactNode
   classname?: string
+  required?: boolean
   placeholder?: string
   inputClassName?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
+}
+
+export interface FormTextareaProps extends Omit<FormFieldProps, 'onChange'> {
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>
 }
 
 export interface FormSelectProps {

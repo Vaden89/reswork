@@ -7,6 +7,7 @@ export interface ResumeMetadata {
   data_source_id: string
   created_at: Date
   updated_at: Date
+  preview?: Blob
 }
 
 export interface ResumeDataSource {

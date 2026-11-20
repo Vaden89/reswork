@@ -49,6 +49,13 @@ export const remoteRepository: ResumeRepository = {
     // future: convex.mutation(api.resumes.remove, { id })
     throw NOT_IMPLEMENTED
   },
+
+  async savePreview(_id: string, _image: Blob): Promise<void> {
+    // future: upload the blob to Convex file storage
+    // (ctx.storage.generateUploadUrl), then
+    // convex.mutation(api.resumes.savePreview, { id, storageId })
+    throw NOT_IMPLEMENTED
+  },
 }
 
 /**
@@ -58,7 +65,9 @@ export const remoteRepository: ResumeRepository = {
  *
  * future: `return enabled ? useQuery(api.resumes.list) : undefined`
  */
-export function useRemoteResumes(_enabled: boolean): ResumeMetadata[] | undefined {
+export function useRemoteResumes(
+  _enabled: boolean,
+): ResumeMetadata[] | undefined {
   return undefined
 }
 

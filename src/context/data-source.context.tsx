@@ -8,9 +8,7 @@ import type { ReactNode } from 'react'
 import type { ResumeRepository } from '#/types/repository.type'
 
 type DataSourceContextValue = {
-  /** True when the active source is the online (Convex) backend. */
   isOnline: boolean
-  /** The active repository — Dexie when offline, Convex when online. */
   repository: ResumeRepository
 }
 
@@ -18,7 +16,9 @@ const DataSourceContext = createContext<DataSourceContextValue | null>(null)
 
 export function DataSourceProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth()
-  const isOnline = user?.type === 'authenticated'
+  // const isOnline = user?.type === 'authenticated'
+  // Temporarily set isOnline to false to use local repository
+  const isOnline = false
   const repository = isOnline ? remoteRepository : localRepository
 
   const wasOnline = useRef(isOnline)

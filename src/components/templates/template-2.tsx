@@ -14,9 +14,20 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text>
-            {data.first_name} {data.last_name}
-          </Text>
+          <View
+            style={{ flexDirection: 'row', gap: 4, alignItems: 'flex-end' }}
+          >
+            <Text>
+              {data.first_name} {data.last_name}
+            </Text>
+            {data.profession && (
+              <Text
+                style={{ fontSize: 14, marginBottom: 3.5, color: '#696969' }}
+              >
+                · {data.profession}
+              </Text>
+            )}
+          </View>
           <View style={styles.generalInfo}>
             <Text>{data.phone}</Text>
             <Text> · {data.email}</Text>
@@ -61,34 +72,44 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
               <Text>WORK EXPERIENCE</Text>
             </View>
             <View style={styles.workExperienceSection}>
-              {data.workExperience.map((experience, index) => (
-                <View key={index} style={styles.workExperienceContainer}>
-                  <View style={styles.experienceRow}>
-                    <Text style={styles.companyName}>
-                      {experience.company} ·
-                    </Text>
-                    <Text style={styles.metaMuted}>{experience.location}</Text>
-                  </View>
-                  <View style={styles.experienceRow}>
-                    <Text>{experience.position} ·</Text>
-                    <Text style={styles.metaMuted}>
-                      {experience.start_date} - {experience.end_date}
-                    </Text>
-                  </View>
-                  <View style={styles.responsibilitiesSection}>
-                    {experience.responsibilities.map(
-                      (responsibility, respIndex) => (
-                        <View key={respIndex} style={styles.bulletItem}>
-                          <Text style={styles.bullet}>•</Text>
-                          <Text style={styles.bulletText}>
-                            {responsibility}
-                          </Text>
+              {data.workExperience.map((experience, index) => {
+                const [firstResp, ...restResps] = experience.responsibilities
+                return (
+                  <View key={index} style={styles.workExperienceContainer}>
+                    {/* Header + first responsibility move to the next page together */}
+                    <View wrap={false}>
+                      <View style={styles.experienceRow}>
+                        <Text style={styles.companyName}>
+                          {experience.company} ·
+                        </Text>
+                        <Text style={styles.metaMuted}>
+                          {experience.location}
+                        </Text>
+                      </View>
+                      <View style={styles.experienceRow}>
+                        <Text>{experience.position} ·</Text>
+                        <Text style={styles.metaMuted}>
+                          {experience.start_date} - {experience.end_date}
+                        </Text>
+                      </View>
+                      {firstResp && (
+                        <View style={styles.responsibilitiesSection}>
+                          <Bullet text={firstResp} />
                         </View>
-                      ),
+                      )}
+                    </View>
+                    {restResps.length > 0 && (
+                      <View
+                        style={[styles.responsibilitiesSection, { marginTop: 2 }]}
+                      >
+                        {restResps.map((responsibility, respIndex) => (
+                          <Bullet key={respIndex} text={responsibility} />
+                        ))}
+                      </View>
                     )}
                   </View>
-                </View>
-              ))}
+                )
+              })}
             </View>
           </View>
         )}
@@ -103,9 +124,16 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
                 <View key={index} style={styles.projectSection}>
                   <View style={styles.projectMetaData}>
                     <View style={styles.projectHeaderSection}>
-                      <Link href={project.live_url} style={styles.projectName}>
-                        {project.name}
-                      </Link>
+                      {project.live_url ? (
+                        <Link
+                          href={project.live_url}
+                          style={styles.projectName}
+                        >
+                          {project.name}
+                        </Link>
+                      ) : (
+                        <Text style={styles.projectName}>{project.name}</Text>
+                      )}
                       <Text style={styles.metaMuted}>
                         - {project.technologies.join(', ')}
                       </Text>
@@ -120,39 +148,45 @@ export const Template2 = ({ data }: { data: TemplateData }) => {
           </View>
         )}
 
-        {data.education.length > 0 &&
-          data.education.map((education, index) => (
-            <View key={index} style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text>
-                  {education.degree_type} {education.course}
-                </Text>
-              </View>
-              <View style={styles.projectSection}>
-                <View style={styles.projectMetaData}>
-                  <Text style={styles.companyName}>{education.school}</Text>
-                  <Text>{education.location}</Text>
-                </View>
-                <View style={styles.projectMetaData}>
-                  <View style={{ flexDirection: 'row', gap: 5 }}>
+        {data.education.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text>EDUCATION</Text>
+            </View>
+            <View style={styles.projectContainer}>
+              {data.education.map((education, index) => (
+                <View key={index} style={styles.projectSection}>
+                  <View style={styles.projectMetaData}>
+                    <Text style={styles.companyName}>{education.school}</Text>
+                    <Text>{education.location}</Text>
+                  </View>
+                  <View style={styles.projectMetaData}>
+                    <View style={{ flexDirection: 'row', gap: 5 }}>
+                      <Text>
+                        {education.degree_type} {education.course}
+                      </Text>
+                      {education.gpa && <Text>GPA: {education.gpa}</Text>}
+                    </View>
                     <Text>
-                      {education.degree_type} {education.course}
-                    </Text>
-                    <Text style={{ fontStyle: 'italic' }}>
-                      GPA: {education.gpa}
+                      {education.start_date} - {education.end_date}
                     </Text>
                   </View>
-                  <Text>
-                    {education.start_date} - {education.end_date}
-                  </Text>
                 </View>
-              </View>
+              ))}
             </View>
-          ))}
+          </View>
+        )}
       </Page>
     </Document>
   )
 }
+
+const Bullet = ({ text }: { text: string }) => (
+  <View style={styles.bulletItem} wrap={false}>
+    <Text style={styles.bullet}>•</Text>
+    <Text style={styles.bulletText}>{text}</Text>
+  </View>
+)
 
 const styles = StyleSheet.create({
   page: {

@@ -1,204 +1,136 @@
-Welcome to your new TanStack Start app! 
+# Reswork
 
-# Getting Started
+Reswork is a resume builder built with TanStack Start, Convex, Better Auth, and local-first storage for guest users. It supports creating and editing resumes, browsing template-based previews, and using AI-assisted refinement for responsibilities.
 
-To run this application:
+## Features
+
+- Resume creation and editing with a multi-section builder
+- Template gallery with live preview cards and thumbnails
+- Authenticated and guest flows
+- Local-first storage: guest resumes are persisted in the browser via IndexedDB (Dexie)
+- Convex-backed user data and AI token tracking
+- AI refinement requests for resume responsibilities
+- PDF rendering and export via `@react-pdf/renderer`
+
+## Tech Stack
+
+- TanStack Start & TanStack Router (file-based routing)
+- Convex (backend data + HTTP endpoints)
+- Better Auth (via `@convex-dev/better-auth`)
+- React 19 + TypeScript
+- Tailwind CSS v4
+- Base UI (`@base-ui/react`) and Motion for UI
+- Dexie (IndexedDB) for local-first guest storage
+- `@react-pdf/renderer`, `react-pdf`, and `pdfjs-dist` for PDF tooling
+- Axios for API requests
+
+## Prerequisites
+
+- Node.js 20 or newer
+- `pnpm`
+- A configured Convex deployment
+
+## Setup
+
+Install dependencies:
 
 ```bash
 pnpm install
+```
+
+Create a local env file from the example and fill in the deployment values:
+
+```bash
+cp .env.example .env.local
+```
+
+The project expects these values:
+
+- `CONVEX_DEPLOYMENT` — the deployment used by `npx convex dev`
+- `VITE_CONVEX_URL` — Convex deployment URL (`*.convex.cloud`)
+- `VITE_CONVEX_SITE_URL` — Convex HTTP actions URL (`*.convex.site`)
+- `SITE_URL` — app origin (e.g. `http://localhost:3000`)
+- `VITE_SITE_URL` — app origin exposed to the client
+
+## Development
+
+Run the app locally:
+
+```bash
 pnpm dev
 ```
 
-# Building For Production
+The app runs on port `3000`.
 
-To build this application for production:
+Run the Convex backend in a separate terminal:
+
+```bash
+npx convex dev
+```
+
+## Build
+
+Create a production build:
 
 ```bash
 pnpm build
 ```
 
-## Testing
+Preview the production build:
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+```bash
+pnpm preview
+```
+
+## Tests
+
+Run the test suite (Vitest):
 
 ```bash
 pnpm test
 ```
 
-## Styling
+## Quality Checks
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `pnpm add @tailwindcss/vite tailwindcss --dev`
-
-## Linting & Formatting
-
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
+Lint, format, and verify formatting:
 
 ```bash
-pnpm lint
-pnpm format
-pnpm check
+pnpm lint     # eslint
+pnpm format   # prettier --write + eslint --fix
+pnpm check    # prettier --check
 ```
 
+## Convex Development
 
+This project uses Convex for backend data and auth. Key files live under `convex/`:
 
-## Routing
+- `convex/schema.ts` — database schema (currently the `users` table with token counts)
+- `convex/auth.ts` / `convex/auth.config.ts` — auth setup and providers
+- `convex/convex.config.ts` — enables the Better Auth integration
+- `convex/tokens.ts` — AI token tracking functions
+- `convex/http.ts` — HTTP endpoints (auth routes, CORS)
 
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
+When you change Convex functions or schema, use the Convex CLI from the project root. To list the available commands:
 
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
+```bash
+npx convex -h
 ```
 
-Then anywhere in your JSX you can use it like so:
+## Project Structure
 
-```tsx
-<Link to="/about">About</Link>
-```
+- `src/routes/` — TanStack file-based routes (landing, auth, resumes, builder)
+- `src/components/` — shared UI, forms, and landing page sections
+- `src/context/` — auth, data source, and toast providers
+- `src/hooks/` — reusable React hooks
+- `src/services/` — API and AI service helpers
+- `src/data/` — template registry, repositories (local/remote), and app constants
+- `src/db/` — Dexie database and local persistence logic
+- `src/lib/` — auth client and shared library setup
+- `src/types/` — shared TypeScript types
+- `src/utils/` — helpers (PDF, thumbnails, dates, strings, API)
+- `convex/` — Convex backend functions, schema, and auth config
 
-This will create a link that will navigate to the `/about` route.
+## Notes
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+- Guest users store resumes locally on the current device via IndexedDB.
+- Authenticated users can sync data and access AI features.

@@ -12,4 +12,6 @@ export const RESUME_SECTIONS = [
   { id: 'experience', label: 'Experience', icon: BriefcaseBusiness },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
-]
+] as const
+
+export type SectionId = (typeof RESUME_SECTIONS)[number]['id']

@@ -1,13 +1,15 @@
-import { ChevronLeft, ChevronRight, Eye, SquarePen } from 'lucide-react'
 import { RESUME_SECTIONS } from '#/data/templates/sections'
+import { ChevronLeft, ChevronRight, Eye, SquarePen } from 'lucide-react'
+
 import type { Dispatch, SetStateAction } from 'react'
+import type { SectionId } from '#/data/templates/sections'
 
 interface ResumeSectionSidebarProps {
-  activeSection: string
+  activeSection: SectionId
   isOpen: boolean
   isPreviewVisible: boolean
   onToggle: () => void
-  setActiveSection: Dispatch<SetStateAction<string>>
+  setActiveSection: Dispatch<SetStateAction<SectionId>>
   setIsPreviewVisible: (visible: boolean) => void
 }
 

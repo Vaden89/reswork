@@ -27,7 +27,7 @@ export function TemplateCard({
         <span className="text-lg font-semibold text-start">
           {template.label}
         </span>
-        <span className="text-xs text-secondary text-start">
+        <span className="text-xs text-accent text-start">
           {template.subText}
         </span>
       </div>

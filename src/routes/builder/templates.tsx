@@ -5,6 +5,9 @@ import { TemplateCard } from '#/components/template-card'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useDataSource } from '#/context/data-source.context'
+import { CreateResumeModal } from '#/components/builder/modals/create-resume-modal'
+import type { TemplateData } from '#/types/template.type'
+import { useToast } from '#/context/toast.context'
 
 export const Route = createFileRoute('/builder/templates')({
   component: RouteComponent,
@@ -13,8 +16,8 @@ export const Route = createFileRoute('/builder/templates')({
 function RouteComponent() {
   const navigate = useNavigate()
   const { repository } = useDataSource()
-  const [loading, setLoading] = useState(false)
   const templateContainer = useRef<HTMLDivElement>(null)
+  const { error: toastError } = useToast()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
     null,
   )
@@ -31,22 +34,21 @@ function RouteComponent() {
     })
   }
 
-  const handleCreateResume = async () => {
+  const handleCreateResume = async (data?: TemplateData) => {
     if (!selectedTemplateId) return
-    setLoading(true)
     try {
       const rand = crypto.randomUUID().slice(0, 8)
 
       const resume_id = await repository.createResume({
         template_id: selectedTemplateId,
         title: `New Resume-${rand}`,
+        data,
       })
 
       navigate({ to: `/builder/${resume_id}` })
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      toastError(message)
     }
   }
 
@@ -91,13 +93,9 @@ function RouteComponent() {
             />
           </div>
 
-          <Button
-            iconPosition="right"
-            className="py-2 px-3"
-            onClick={handleCreateResume}
-            icon={<ArrowRightIcon size={16} />}
-            disabled={!selectedTemplateId || loading}
-            text={loading ? 'Loading...' : 'CONTINUE'}
+          <CreateResumeModal
+            createResume={handleCreateResume}
+            selectedTemplateId={selectedTemplateId}
           />
         </div>
       </section>

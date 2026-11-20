@@ -4,6 +4,7 @@ import { cn } from '#/utils/cn'
 const variants = {
   default: 'bg-primary text-white',
   ghost: 'bg-transparent text-secondary',
+  outline: 'bg-transparent text-primary border border-primary',
 }
 
 export const Button = ({

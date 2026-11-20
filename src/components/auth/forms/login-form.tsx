@@ -1,0 +1,100 @@
+import { Button } from '#/components/common/button'
+import { FormField } from '#/components/common/form'
+import { useToast } from '#/context/toast.context'
+import { authClient } from '#/lib/auth-client'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
+import type { SubmitEvent } from 'react'
+
+export function LoginForm() {
+  const { error } = useToast()
+  const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const email = String(formData.get('email') ?? '').trim()
+    const password = String(formData.get('password') ?? '').trim()
+
+    if (!email || !password) {
+      error('Enter your email and password to continue.')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const { error: signInError } = await authClient.signIn.email({
+        email,
+        password,
+      })
+
+      if (signInError) {
+        error(signInError.message ?? 'Unable to log in with those credentials.')
+        return
+      }
+
+      await navigate({ to: '/resumes' })
+    } catch (caughtError) {
+      error(
+        caughtError instanceof Error
+          ? caughtError.message
+          : 'Something went wrong.',
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <form
+      className=" px-4 lg:w-2/3 space-y-4 text-center"
+      onSubmit={handleSubmit}
+    >
+      <h1 className="text-5xl font-medium leading-[80%]">Welcome back!</h1>
+      <p className="text-secondary text-sm">
+        Your work experience, your resume, your professional history all in one
+        place.
+      </p>
+      <FormField label="Email" name="email" placeholder="Enter your email" />
+      <FormField
+        name="password"
+        type={isPasswordVisible ? 'text' : 'password'}
+        label="Password"
+        extra={
+          <span
+            className="text-secondary"
+            onClick={() => setIsPasswordVisible((prev) => !prev)}
+          >
+            {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+          </span>
+        }
+        placeholder="Enter your password"
+      />
+
+      <Button
+        type="submit"
+        text={isSubmitting ? 'Logging in...' : 'Login'}
+        className="w-full py-2"
+        disabled={isSubmitting}
+      />
+
+      <div className="text-sm">
+        <span className="text-secondary">Don't have an account? </span>
+        <Link
+          to="/sign-up"
+          className="underline underline-offset-2 font-semibold"
+        >
+          Sign up
+        </Link>
+      </div>
+    </form>
+  )
+}
+
+function maskPassword(password: string): string {
+  return password.replace(/./g, '*')
+}

@@ -13,6 +13,8 @@ import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuilderTemplatesRouteImport } from './routes/builder/templates'
 import { Route as BuilderIdRouteImport } from './routes/builder/$id'
+import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
 const ResumesRoute = ResumesRouteImport.update({
   id: '/resumes',
@@ -34,16 +36,30 @@ const BuilderIdRoute = BuilderIdRouteImport.update({
   path: '/builder/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authSignUpRoute = authSignUpRouteImport.update({
+  id: '/(auth)/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/resumes': typeof ResumesRoute
+  '/login': typeof authLoginRoute
+  '/sign-up': typeof authSignUpRoute
   '/builder/$id': typeof BuilderIdRoute
   '/builder/templates': typeof BuilderTemplatesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/resumes': typeof ResumesRoute
+  '/login': typeof authLoginRoute
+  '/sign-up': typeof authSignUpRoute
   '/builder/$id': typeof BuilderIdRoute
   '/builder/templates': typeof BuilderTemplatesRoute
 }
@@ -51,20 +67,43 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/resumes': typeof ResumesRoute
+  '/(auth)/login': typeof authLoginRoute
+  '/(auth)/sign-up': typeof authSignUpRoute
   '/builder/$id': typeof BuilderIdRoute
   '/builder/templates': typeof BuilderTemplatesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/resumes' | '/builder/$id' | '/builder/templates'
+  fullPaths:
+    | '/'
+    | '/resumes'
+    | '/login'
+    | '/sign-up'
+    | '/builder/$id'
+    | '/builder/templates'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/resumes' | '/builder/$id' | '/builder/templates'
-  id: '__root__' | '/' | '/resumes' | '/builder/$id' | '/builder/templates'
+  to:
+    | '/'
+    | '/resumes'
+    | '/login'
+    | '/sign-up'
+    | '/builder/$id'
+    | '/builder/templates'
+  id:
+    | '__root__'
+    | '/'
+    | '/resumes'
+    | '/(auth)/login'
+    | '/(auth)/sign-up'
+    | '/builder/$id'
+    | '/builder/templates'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ResumesRoute: typeof ResumesRoute
+  authLoginRoute: typeof authLoginRoute
+  authSignUpRoute: typeof authSignUpRoute
   BuilderIdRoute: typeof BuilderIdRoute
   BuilderTemplatesRoute: typeof BuilderTemplatesRoute
 }
@@ -99,12 +138,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuilderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/sign-up': {
+      id: '/(auth)/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof authSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ResumesRoute: ResumesRoute,
+  authLoginRoute: authLoginRoute,
+  authSignUpRoute: authSignUpRoute,
   BuilderIdRoute: BuilderIdRoute,
   BuilderTemplatesRoute: BuilderTemplatesRoute,
 }
